@@ -8,6 +8,10 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
+
+import "@radix-ui/themes/styles.css";
+import { Theme } from "@radix-ui/themes";
+
 import stylesheet from "./app.css?url";
 
 export const links: Route.LinksFunction = () => [
@@ -43,7 +47,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <Theme accentColor="violet" appearance="light" grayColor="gray" radius="large" scaling="100%" panelBackground='translucent'>
+      <Outlet />
+    </Theme>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
