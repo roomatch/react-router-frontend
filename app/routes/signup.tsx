@@ -4,28 +4,51 @@ import { Button, Flex, Strong, Text } from "@radix-ui/themes";
 import * as Label from "@radix-ui/react-label";
 import * as Toast from "@radix-ui/react-toast";
 import { useEffect, useRef } from "react";
-import "./styles.css";
+
+import { useReducer } from "react";
+
+type State = {
+    images: string[];
+    isUploadInfoNotificationOpened: boolean;
+    isUploadSuccessNotificationOpened: boolean;
+    isUploadErrorNotificationOpened: boolean;
+};
+
+type Action =
+    | { type: "SET_IMAGES"; payload: string[] }
+    | { type: "TOGGLE_INFO_NOTIFICATION" }
+    | { type: "TOGGLE_SUCCESS_NOTIFICATION" }
+    | { type: "TOGGLE_ERROR_NOTIFICATION" };
+
+const initialState: State = {
+    images: [],
+    isUploadInfoNotificationOpened: false,
+    isUploadSuccessNotificationOpened: false,
+    isUploadErrorNotificationOpened: false,
+};
+
+function reducer(state: State, action: Action): State {
+    switch (action.type) {
+        case "SET_IMAGES":
+            return { ...state, images: action.payload };
+        case "TOGGLE_INFO_NOTIFICATION":
+            return { ...state, isUploadInfoNotificationOpened: !state.isUploadInfoNotificationOpened };
+        case "TOGGLE_SUCCESS_NOTIFICATION":
+            return { ...state, isUploadSuccessNotificationOpened: !state.isUploadSuccessNotificationOpened };
+        case "TOGGLE_ERROR_NOTIFICATION":
+            return { ...state, isUploadErrorNotificationOpened: !state.isUploadErrorNotificationOpened };
+        default:
+            return state;
+    }
+}
 
 export default function Signup() {
-    const [images, setImages] = useState<string[]>([]);
+    const [state, dispatch] = useReducer(reducer, initialState);
 
-    const [open, setOpen] = useState(false);
-    const timerRef = useRef(0);
-
-    useEffect(() => {
-        return () => clearTimeout(timerRef.current);
-    }, []);
 
     const handleFilesUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        setOpen(false);
         const files = event.target.files;
         if (!files) return;
-
-        window.clearTimeout(timerRef.current);
-        timerRef.current = window.setTimeout(() => {
-            setOpen(true);
-        }, 100);
-        /*
         const uploadPromises = Array.from(files).map(async (file: File) => {
             const data = new FormData();
             data.append('file', file);
@@ -46,14 +69,22 @@ export default function Signup() {
         });
 
         const uploadedImages = await Promise.all(uploadPromises);
-        setImages(prevImages => [...prevImages, ...uploadedImages.filter(url => url !== null)]);
+        //setImages(prevImages => [...prevImages, ...uploadedImages.filter(url => url !== null)]);
         console.log(uploadedImages);
-        */
+
     };
 
     const filesMutation = useMutation({
         mutationFn: handleFilesUpload,
-        onError: (error) => console.error('Error:', error),
+        onError: () => {if(state.isUploadErrorNotificationOpened) dispatch({ type: "TOGGLE_ERROR_NOTIFICATION" })},
+        onMutate: () => {
+            if(state.isUploadSuccessNotificationOpened) dispatch({ type: "TOGGLE_INFO_NOTIFICATION" });
+            if(!state.isUploadInfoNotificationOpened) dispatch({ type: "TOGGLE_INFO_NOTIFICATION" });
+        },
+        onSuccess: () => {
+            if(state.isUploadInfoNotificationOpened) dispatch({ type: "TOGGLE_INFO_NOTIFICATION" });
+            if(!state.isUploadSuccessNotificationOpened) dispatch({ type: "TOGGLE_SUCCESS_NOTIFICATION" });
+        },
     })
 
     return (
@@ -71,32 +102,75 @@ export default function Signup() {
                     {filesMutation.isSuccess && <Text size="1" as="p">Cargado con éxito</Text>}
                 </Label.Root >
 
-                <Toast.Root className="bg-white rounded-md p-4 data-[state=open]:animate-[slideIn_150ms_cubic-bezier(0.16,1,0.3,1)] data-[state=closed]:animate-[hide_100ms_ease-in] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=cancel]:translate-x-0 data-[swipe=cancel]:transition-transform data-[swipe=cancel]:duration-200 data-[swipe=cancel]:ease-out data-[swipe=end]:animate-[swipeOut_100ms_ease-out]" open={open} onOpenChange={setOpen}>
-                    <Toast.Title asChild>
-                        <Flex display="flex" align="center" gap="1">
-                            <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-info-circle">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
-                                <path d="M12 9h.01" />
-                                <path d="M11 12h1v4h1" />
-                            </svg>
-                            <Text as="p">Cargando imágenes...</Text>
-                        </Flex>
-                    </Toast.Title>
-                    <Toast.Action
-                        asChild
-                        altText="Cerrar notificacion"
-                    >
-                        <Button size="1" radius="large" className="hover:cursor-pointer transition-all">Cerrar</Button>
-                    </Toast.Action>
+                <Toast.Root className="bg-gray-100 rounded-md p-2 data-[state=open]:animate-[slideIn_150ms_cubic-bezier(0.16,1,0.3,1)] data-[state=closed]:animate-[hide_100ms_ease-in] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=cancel]:translate-x-0 data-[swipe=cancel]:transition-transform data-[swipe=cancel]:duration-200 data-[swipe=cancel]:ease-out data-[swipe=end]:animate-[swipeOut_100ms_ease-out]" open={state.isUploadInfoNotificationOpened} onOpenChange={() => {if(state.isUploadInfoNotificationOpened) dispatch({ type: "TOGGLE_INFO_NOTIFICATION" })}}>
+                    <Flex display="flex" direction="row" justify="between" align="center">
+                        <Toast.Title asChild>
+                            <Flex display="flex" align="center" gap="1" mb="2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-info-circle">
+                                    <path d="M0 0h24v24H0z" fill="none" stroke="none" />
+                                    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" stroke="blue" />
+                                    <path d="M12 9h.01" stroke="blue" />
+                                    <path d="M11 12h1v4h1" stroke="blue" />
+                                </svg>
+                                <Text as="p" size="2">Cargando imágenes...</Text>
+                            </Flex>
+                        </Toast.Title>
+                        <Toast.Action
+                            asChild
+                            altText="Cerrar notificacion"
+                        >
+                            <Button variant="outline" color="crimson" size="1" radius="large" className="hover:cursor-pointer transition-all">Cerrar</Button>
+                        </Toast.Action>
+                    </Flex>
                 </Toast.Root>
+
+                <Toast.Root className="bg-gray-100 rounded-md p-2 data-[state=open]:animate-[slideIn_150ms_cubic-bezier(0.16,1,0.3,1)] data-[state=closed]:animate-[hide_100ms_ease-in] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=cancel]:translate-x-0 data-[swipe=cancel]:transition-transform data-[swipe=cancel]:duration-200 data-[swipe=cancel]:ease-out data-[swipe=end]:animate-[swipeOut_100ms_ease-out]" open={state.isUploadSuccessNotificationOpened} onOpenChange={() => {if(state.isUploadSuccessNotificationOpened) dispatch({ type: "TOGGLE_SUCCESS_NOTIFICATION" })}}>
+                    <Flex display="flex" direction="row" justify="between" align="center">
+                        <Toast.Title asChild>
+                            <Flex display="flex" align="center" gap="1" mb="2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-circle-check">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" stroke="green" />
+                                <path d="M9 12l2 2l4 -4" stroke="green" />
+                            </svg>
+                            <Text as="p" size="2">Imágenes cargadas exitosamente.</Text>
+                            </Flex>
+                        </Toast.Title>
+                        <Toast.Action
+                            asChild
+                            altText="Cerrar notificacion"
+                        >
+                            <Button variant="outline" color="crimson" size="1" radius="large" className="hover:cursor-pointer transition-all">Cerrar</Button>
+                        </Toast.Action>
+                    </Flex>
+                </Toast.Root>
+
+                <Toast.Root className="bg-gray-100 rounded-md p-2 data-[state=open]:animate-[slideIn_150ms_cubic-bezier(0.16,1,0.3,1)] data-[state=closed]:animate-[hide_100ms_ease-in] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=cancel]:translate-x-0 data-[swipe=cancel]:transition-transform data-[swipe=cancel]:duration-200 data-[swipe=cancel]:ease-out data-[swipe=end]:animate-[swipeOut_100ms_ease-out]" open={state.isUploadErrorNotificationOpened} onOpenChange={() => {if(state.isUploadErrorNotificationOpened) dispatch({ type: "TOGGLE_ERROR_NOTIFICATION" })}}>
+                    <Flex display="flex" direction="row" justify="between" align="center">
+                        <Toast.Title asChild>
+                            <Flex display="flex" align="center" gap="1" mb="2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-alert-square-rounded">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" stroke="red" />
+                                <path d="M12 8v4" stroke="red" />
+                                <path d="M12 16h.01" stroke="red" />
+                            </svg>
+                            <Text as="p" size="2">Hubo un error en la carga, contáctanos para ayudarte.</Text>
+                            </Flex>
+                        </Toast.Title>
+                        <Toast.Action
+                            asChild
+                            altText="Cerrar notificacion"
+                        >
+                            <Button variant="outline" color="crimson" size="1" radius="large" className="hover:cursor-pointer transition-all">Cerrar</Button>
+                        </Toast.Action>
+                    </Flex>
+                </Toast.Root>
+
+
+
                 <Toast.Viewport className="fixed flex flex-col gap-2.5 w-[390px] max-w-[100vw] z-[2147483647] m-0 p-[25px] right-0 bottom-0 list-none outline-none" />
 
-                <div>
-                    {images.map(img => (
-                        <img src={img} alt="uploaded" key={img} />
-                    ))}
-                </div>
             </Toast.Provider>
 
         </>
