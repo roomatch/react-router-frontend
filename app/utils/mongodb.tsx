@@ -1,6 +1,6 @@
 // db.js
 const { MongoClient, ServerApiVersion } = require("mongodb");
-const PASSWORD = process.env.MONGODB_PASSWORD
+const PASSWORD = "zO6sROokX04mxU2h";
 const uri = `roomatchoficial:${PASSWORD}@testdb.dvin4.mongodb.net/?retryWrites=true&w=majority&appName=Testdb`;
 
 const client = new MongoClient(uri, {
