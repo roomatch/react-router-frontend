@@ -1,6 +1,19 @@
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-
+import { getSubmissions } from "~/utils/jotform";
 export default function Signup() {
+
+    const { data: submissions, error, isLoading } = useQuery({ queryKey: ["submissions"], queryFn: getSubmissions })
+    let result = ""
+    if (isLoading) {
+        result = "Loading"
+    } else if (error) {
+        result = "Error retrieving data"
+    } else {
+        result = "Submissions loaded successfully"
+    }
+
+
     const [images, setImages] = useState<string[]>([]);
 
     const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +38,7 @@ export default function Signup() {
                 return null;
             }
         });
-        
+
         const uploadedImages = await Promise.all(uploadPromises);
         setImages(prevImages => [...prevImages, ...uploadedImages.filter(url => url !== null)]);
         console.log(uploadedImages);
@@ -33,6 +46,7 @@ export default function Signup() {
 
     return (
         <div>
+            <p>{result}</p>
             <input type="file" multiple accept=".jpg, .jpeg, .png" onChange={handleFileUpload} />
             <div>
                 {images.map(img => (

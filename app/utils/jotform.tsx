@@ -1,15 +1,11 @@
 const API_KEY = "a2899dc07c24bd4216e7eef159bd4198"
+import { useEffect, useState } from "react";
 
 
 export async function getSubmissions() {
     const URL = `https://api.jotform.com/user/forms?apiKey=${API_KEY}`
-
-
     try {
         const response = await fetch(URL);
-        if (!response.ok) {
-            throw new Error(`Error: ${response.status} - ${response.statusText}`);
-        }
         const data = await response.json();
         return data;
     } catch (error) {
@@ -41,3 +37,5 @@ export async function editSubmission(submissionData: any, submission_id: any) {
         throw error;
     }
 }
+
+
