@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { getSubmissions } from "~/utils/jotform";
+import { getSubmissions } from "~/api/jotform";
 export default function Signup() {
 
     const { data: submissions, error, isLoading } = useQuery({ queryKey: ["submissions"], queryFn: getSubmissions })
@@ -12,7 +12,6 @@ export default function Signup() {
     } else {
         result = "Submissions loaded successfully"
     }
-
 
     const [images, setImages] = useState<string[]>([]);
 

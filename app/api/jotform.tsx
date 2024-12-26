@@ -1,11 +1,11 @@
-const API_KEY = "a2899dc07c24bd4216e7eef159bd4198"
-import { useEffect, useState } from "react";
+import type { Interface } from "readline";
+
+const API_KEY = process.env.JOTFORM_APIKEY
 
 
 export async function getSubmissions() {
-    const URL = `https://api.jotform.com/user/forms?apiKey=${API_KEY}`
     try {
-        const response = await fetch(URL);
+        const response = await fetch(`https://api.jotform.com/user/forms?apiKey=${API_KEY}`);
         const data = await response.json();
         return data;
     } catch (error) {
@@ -14,10 +14,9 @@ export async function getSubmissions() {
     }
 }
 //Metodo para editar la solicitud, podemos adaptarlo posteriormente a como lo vamos a usar
-export async function editSubmission(submissionData: any, submission_id: any) {
-    const url = `https://api.jotform.com/submission/${submission_id}?apiKey=${API_KEY}`;
+export async function editSubmission(submissionData: Interface, submission_id: string) {
     try {
-        const response = await fetch(url, {
+        const response = await fetch(`https://api.jotform.com/submission/${submission_id}?apiKey=${API_KEY}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
