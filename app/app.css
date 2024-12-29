@@ -16,6 +16,14 @@
 html,
 body {
 
+  
+
+  .radix-themes {
+    --heading-font-family: 'Poppins', system-ui;
+    --default-font-family: 'Comfortaa Variable', system-ui;
+    --font-weight-regular: 800;
+  }
+
   @media (prefers-color-scheme: dark) {
 
     :root,
@@ -161,6 +169,9 @@ body {
       --color-background: #fafafa;
 
       @apply bg-[var(--color-background)];
+      
     }
   }
+
+  
 }

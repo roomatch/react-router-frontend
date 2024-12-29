@@ -39,6 +39,9 @@ export default {
         'mirrage': 'var(--mirrage)',
       },
     },
+    objectPosition: {
+      'center-top': 'center top',
+    }
   },
   plugins: [],
 } satisfies Config;

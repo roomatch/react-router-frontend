@@ -9,6 +9,8 @@
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
+    "@fontsource-variable/comfortaa": "^5.1.0",
+    "@fontsource/poppins": "^5.1.0",
     "@radix-ui/react-label": "^2.1.1",
     "@radix-ui/react-toast": "^1.2.4",
     "@radix-ui/themes": "^3.1.6",
