@@ -4,6 +4,7 @@ import { createRoomie, type Roomie } from "./model/roomie";
 import type { JotFormResponse } from "./model";
 import { createRoomieArrendador, type RoomieArrendador } from "./model/roomieArrendador";
 
+const API_KEY = process.env.JOTFORM_APIKEY
 
 export async function getSubmissions(): Promise<JotFormResponse> {
     try {
@@ -14,11 +15,13 @@ export async function getSubmissions(): Promise<JotFormResponse> {
         console.error("Error fetching submissions:", error);
         throw error;
     }
+}
+
 export async function editSubmission(questionId: string, newAnswer: string, submissionId: string) {
     try {
         const requestBody = {
-                [questionId]: newAnswer,
-            
+            [questionId]: newAnswer,
+
         };
         const response = await fetch(`https://api.jotform.com/submission/${submissionId}?apiKey=${'a2899dc07c24bd4216e7eef159bd4198'}`, {
             method: "POST",
