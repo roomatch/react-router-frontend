@@ -1,12 +1,10 @@
 import type { Interface } from "readline";
 import { findOrAddUser, getUserInfo, getUsersInfo, updateUserCompatibles } from "./mongodb";
 import { createRoomie, type Roomie } from "./model/roomie";
-import type { JotFormResponse, RoomieInfo } from "./model";
+import type { JotFormResponse } from "./model";
 import { createRoomieArrendador, type RoomieArrendador } from "./model/roomieArrendador";
 
 const API_KEY = process.env.JOTFORM_APIKEY
-
-updateMatrix();
 
 export async function getSubmissions(): Promise<JotFormResponse> {
     try {
@@ -115,8 +113,7 @@ async function updateMatrix() {
     }
 }
 
-//Metodo para editar la solicitud, podemos adaptarlo posteriormente a como lo vamos a usar
-export async function editSubmission(submissionData: Interface, submission_id: string) {
+export async function editSubmission(submissionData: { [key: string]: any }, submission_id: string) {
     try {
         const response = await fetch(`https://api.jotform.com/submission/${submission_id}?apiKey=${API_KEY}`, {
             method: "POST",

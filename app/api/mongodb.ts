@@ -10,7 +10,7 @@ const client = new MongoClient(`mongodb+srv://roomatchoficial:${process.env.MONG
     },
 });
 
-async function connectDB() {
+export async function connectDB() {
     await client.connect();
     console.log("Connected to MongoDB");
     return client;
@@ -29,7 +29,6 @@ export async function getUsersInfo(): Promise<RoomieInfo[]> {
 }
 
 export async function findOrAddUser(cellphone: string, type: string, compatibles: Array<string>, submission_id: string) {
-    client.connect()
     try {
         const database = client.db('roomatch');
         const collection = database.collection('users');
@@ -66,7 +65,6 @@ export async function getUserInfo(cellphone: string): Promise<RoomieInfo> {
 }
 
 export async function updateUserCompatibles(cellphone: string, compatibles: Array<string>) {
-    connectDB()
     try {
         const database = client.db('roomatch');
         const collection = database.collection('users');
