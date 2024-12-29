@@ -106,8 +106,6 @@ async function updateMatrix() {
             }
             await updateUserCompatibles(roomie.celular, compatibles)
         }
-
-
     } catch (error) {
         console.error("Error fetching submissions:", error);
     }

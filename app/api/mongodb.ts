@@ -61,7 +61,6 @@ export async function getUserInfo(cellphone: string): Promise<RoomieInfo> {
         console.error('Error getting user:', err);
         throw err
     }
-
 }
 
 export async function updateUserCompatibles(cellphone: string, compatibles: Array<string>) {
