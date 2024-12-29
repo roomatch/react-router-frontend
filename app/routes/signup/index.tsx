@@ -11,13 +11,14 @@ import { Button, Container, Flex, Heading, Text } from "@radix-ui/themes";
 import roomiesPicture from './assets/roomies.jpg'
 import roomatchIcon from '../../assets/logo-no-letters.svg'
 import { useState } from "react";
+import { editSubmission } from "~/api/jotform";
 
 export default function Signup() {
     const { state, dispatch } = useManageFilesUpload();
     const [kindOfUser, setKindOfUser] = useState<string | null>(null);
     const [inputValue, setInputValue] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-    const [errorsOnSubmit, setErrorsOnSubmit] = useState<string[]>([]);
+    const [errorsOnSubmit, setErrorsOnSubmit] = useState<string[]>(["initialError"]);
 
 
     const handleFilesUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,9 +60,13 @@ export default function Signup() {
             if (state.isUploadInfoNotificationOpened) dispatch({ type: "TOGGLE_INFO_NOTIFICATION" });
             if (!state.isUploadSuccessNotificationOpened) dispatch({ type: "TOGGLE_SUCCESS_NOTIFICATION" });
         },
-    })
+    });
 
     const onOpenChangeProducer = (state: boolean, type: Action['type']) => () => { if (state) dispatch({ type } as Action) }
+
+    const signUpMutation = useMutation({
+        mutationFn: () => editSubmission("92", state.images.join(';'), inputValue),
+    });
 
     const notifications = [{
         open: state.isUploadInfoNotificationOpened,
@@ -80,7 +85,27 @@ export default function Signup() {
         onOpenChange: onOpenChangeProducer(state.isUploadErrorNotificationOpened, 'TOGGLE_ERROR_NOTIFICATION'),
         icon: error,
         title: "Hubo un problema con la carga de tus imágenes, contactanos para ayudarte.",
-    }]
+    },
+    {
+        open: signUpMutation.isPending,
+        onOpenChange: undefined,
+        icon: info,
+        title: "Te estamos registrando...",
+    },
+    {
+        open: signUpMutation.isError,
+        onOpenChange: undefined,
+        icon: error,
+        title: "Hubo un error en tu registro, escribenos para poder ayudarte.",
+    },
+    {
+        open: signUpMutation.isSuccess,
+        onOpenChange: undefined,
+        icon: success,
+        title: "Te has registrado exitosamente.",
+    },
+    ]
+
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -94,12 +119,12 @@ export default function Signup() {
         }
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
 
         setErrorsOnSubmit([]);
 
         if (!kindOfUser) {
-            setErrorsOnSubmit([...errorsOnSubmit,  'Selecciona tu situación de busqueda']);
+            setErrorsOnSubmit([...errorsOnSubmit, 'Selecciona tu situación de busqueda']);
             return;
         }
 
@@ -110,7 +135,11 @@ export default function Signup() {
 
         if (kindOfUser == 'RoomieRent') {
             if ((errorMessage || inputValue.length !== 19)) setErrorMessage("Ingresa tu ID de envío.");
-            if (state.images.length < 2) setErrorsOnSubmit([...errorsOnSubmit,  'Carga al menos dos imágenes']);
+            if (state.images.length < 2) setErrorsOnSubmit([...errorsOnSubmit, 'Carga al menos dos imágenes']);
+        }
+
+        if (kindOfUser == 'RoomieRent' && !errorMessage && errorsOnSubmit.length === 0) {
+            signUpMutation.mutate();
         }
     }
 
@@ -139,11 +168,11 @@ export default function Signup() {
                             </Button>
                         </Flex>
                         {errorsOnSubmit.includes('Selecciona tu situación de busqueda') && (
-                                <Flex direction="row" gap="2" align="center">
-                                    {error}
-                                    <Text as="p" size="2" color="red">Selecciona tu situación de busqueda.</Text>
-                                </Flex>
-                            )}
+                            <Flex direction="row" gap="2" align="center">
+                                {error}
+                                <Text as="p" size="2" color="red">Selecciona tu situación de busqueda.</Text>
+                            </Flex>
+                        )}
                     </Flex>
 
                     <Flex direction="column" gap="2">
@@ -196,7 +225,7 @@ export default function Signup() {
                     </> : null}
 
                     <Container>
-                        <Button className="hover:cursor-pointer"onClick={handleSubmit} >
+                        <Button className="hover:cursor-pointer transition-all" onClick={async () => await handleSubmit()} >
                             Registrarme
                         </Button>
                     </Container>
