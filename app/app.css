@@ -2,9 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  --viewport-padding: 25px;
+
+  --prussian-blue: #04364A;
+  --cerulean: #176B87;
+  --raisin-black: #25272D;
+  --seasalt: #FAFAFA;
+  --electric-indigo: #5928ED;
+  --mirrage: #151b23;
+}
+
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
+
+  
+
+  .radix-themes {
+    --heading-font-family: 'Poppins', system-ui;
+    --default-font-family: 'Comfortaa Variable', system-ui;
+    --font-weight-regular: 800;
+  }
 
   @media (prefers-color-scheme: dark) {
 
@@ -74,7 +92,9 @@ body {
       --gray-indicator: #6a6e78;
       --gray-track: #6a6e78;
 
-      --color-background: #171717;
+      --color-background: #151b23;
+
+      @apply bg-[var(--color-background)];
     }
   }
 
@@ -147,6 +167,11 @@ body {
       --gray-track: #838691;
 
       --color-background: #fafafa;
+
+      @apply bg-[var(--color-background)];
+      
     }
   }
+
+  
 }
