@@ -121,12 +121,7 @@ export default function Signup() {
 
     const handleSubmit = async () => {
 
-        setErrorsOnSubmit([]);
-
-        if (!kindOfUser) {
-            setErrorsOnSubmit([...errorsOnSubmit, 'Selecciona tu situación de busqueda']);
-            return;
-        }
+        if (!kindOfUser) setErrorsOnSubmit([...errorsOnSubmit, 'Selecciona tu situación de busqueda']);
 
         if (kindOfUser == 'RoomieSeek') {
             if (state.images.length !== 0) dispatch({ type: "SET_IMAGES", payload: [] });
@@ -137,10 +132,8 @@ export default function Signup() {
             if ((errorMessage || inputValue.length !== 19)) setErrorMessage("Ingresa tu ID de envío.");
             if (state.images.length < 2) setErrorsOnSubmit([...errorsOnSubmit, 'Carga al menos dos imágenes']);
         }
-
-        if (kindOfUser == 'RoomieRent' && !errorMessage && errorsOnSubmit.length === 0) {
-            signUpMutation.mutate();
-        }
+        
+        if (kindOfUser == 'RoomieRent' && !errorMessage && (errorsOnSubmit.length === 0 || (errorsOnSubmit.length === 1 && errorsOnSubmit[0] === 'initialError'))) signUpMutation.mutate();
     }
 
     return (
