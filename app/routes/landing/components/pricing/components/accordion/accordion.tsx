@@ -398,7 +398,7 @@ export default function Accordion() {
                         <ChevronCompactDown />
                     </RadixAccordion.Header>
                 </RadixAccordion.Trigger>
-                <RadixAccordion.Content className="w-full bg-gradient-to-br from-prussian-blue to-electric-indigo">
+                <RadixAccordion.Content asChild>
                     <Plans tiers={roomieSeekPlans}/>
                 </RadixAccordion.Content>
             </RadixAccordion.Item>
@@ -413,7 +413,7 @@ export default function Accordion() {
                         <ChevronCompactDown />
                     </RadixAccordion.Header>
                 </RadixAccordion.Trigger>
-                <RadixAccordion.Content className="w-full bg-gradient-to-br from-prussian-blue to-electric-indigo">
+                <RadixAccordion.Content asChild>
                     <Plans tiers={roomieRentPlans}/>
                 </RadixAccordion.Content>
             </RadixAccordion.Item>

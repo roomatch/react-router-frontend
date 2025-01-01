@@ -46,18 +46,19 @@ export default function Features() {
         },
     ]
     return (
-        <Flex direction="column" align="center" justify="center" gap="3" className="p-6">
-            <Heading as="h1" align="center">¿Por qué buscar tus roomies y vivienda compartida en Roomatch?</Heading>
-            
-            {featuresProps.map(feature => 
-                <article className={`justify-between items-center flex flex-col gap-6 text-pretty p-6 h-[28rem] w-80 rounded-lg shadow-[0px_10px_100px_-60px_theme(colors.electric-indigo)] ${feature.gradient}`}>
-                    <Flex direction="column" gap="4">
-                        <Heading as="h1" size="4" >{feature.title}</Heading>
-                        <Text as="p">{feature.description}</Text>
-                    </Flex>
-                    {feature.icon}
-                </article>
-            )}
+        <Flex direction="column" align="center" gap="3" className="p-6">
+            <Heading as="h1" align="center" className="max-w-[768px]">¿Por qué buscar tus roomies y vivienda compartida en Roomatch?</Heading>
+            <div className="w-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 place-items-center">
+                {featuresProps.map(feature =>
+                    <article className={`justify-between items-center flex flex-col gap-6 text-pretty p-6 h-[28rem] w-80 rounded-lg shadow-[0px_10px_100px_-60px_theme(colors.electric-indigo)] ${feature.gradient} sm:w-72 sm:h-[32rem] md:h-[28rem] md:w-80`}>
+                        <Flex direction="column" gap="4">
+                            <Heading as="h1" size="4" >{feature.title}</Heading>
+                            <Text as="p">{feature.description}</Text>
+                        </Flex>
+                        {feature.icon}
+                    </article>
+                )}
+            </div>
         </Flex>
     )
 }
