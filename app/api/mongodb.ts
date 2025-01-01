@@ -1,7 +1,7 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 import type { RoomieInfo } from "./model";
 
-const client = new MongoClient(`roomatchoficial:${process.env.MONGODB_PASSWORD}@testdb.dvin4.mongodb.net/?retryWrites=true&w=majority&appName=Testdb`, {
+const client = new MongoClient(`mongodb+srv://roomatchoficial:${process.env.MONGODB_PASSWORD}@testdb.dvin4.mongodb.net/?retryWrites=true&w=majority&appName=Testdb`, {
     serverApi: {
         version: ServerApiVersion.v1,
         strict: true,
@@ -9,7 +9,7 @@ const client = new MongoClient(`roomatchoficial:${process.env.MONGODB_PASSWORD}@
     },
 });
 
-async function connectDB() {
+export async function connectDB() {
     await client.connect();
     console.log("Connected to MongoDB");
     return client;
@@ -78,5 +78,3 @@ export async function updateUserCompatibles(cellphone: string, compatibles: Arra
 
 
 
-
-module.exports = { connectDB, client };
