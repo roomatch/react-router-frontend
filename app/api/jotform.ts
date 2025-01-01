@@ -1,11 +1,15 @@
+import type { JotFormResponse } from "./model";
+import { createRoomie } from "./model/roomie";
+import { createRoomieArrendador } from "./model/roomieArrendador";
+import { getUserInfo } from "./mongodb";
 
 const API_KEY = import.meta.env.VITE_JOTFORM_APIKEY;
 
 export async function editSubmission(questionId: string, newAnswer: string, submissionId: string) {
     try {
         const requestBody = {
-                [questionId]: newAnswer,
-            
+            [questionId]: newAnswer,
+
         };
         const response = await fetch(`https://api.jotform.com/submission/${submissionId}?apiKey=${API_KEY}`, {
             method: "POST",
