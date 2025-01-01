@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss";
 
 export default {
   content: ["./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}"],
@@ -43,5 +44,6 @@ export default {
       'center-top': 'center top',
     }
   },
-  plugins: [],
+  plugins: [
+  ],
 } satisfies Config;
