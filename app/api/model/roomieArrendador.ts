@@ -27,6 +27,7 @@ export type RoomieArrendador = {
     preferenciaRuido: string;
     celular: string;
     direccion: string | undefined;
+    linkfotos: string | undefined;
 };
 
 export const createRoomieArrendador = (responses: Record<string, any>): RoomieArrendador => {
@@ -61,5 +62,6 @@ export const createRoomieArrendador = (responses: Record<string, any>): RoomieAr
         preferenciaRuido: responses["88"]?.answer || "",
         celular: responses["91"]?.answer || "",
         direccion: responses["63"]?.answer,
+        linkfotos: responses["92"]?.answer
     };
 };
