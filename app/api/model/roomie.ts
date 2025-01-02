@@ -7,6 +7,8 @@ export type Roomie = {
     toleranciaInvitados: string;
     descripcionRommieIdeal: string;
     animalesMolestia: string | undefined;
+    tipoanimalesMolestia: string | undefined;
+    viviraConMascota: string;
     nombreCompleto: string;
     generoPreferencia: string;
     frecuenciaInvitados: string;
@@ -23,6 +25,8 @@ export type Roomie = {
     interaccionSocial: string;
     preferenciaRuido: string;
     celular: string;
+    plan: string;
+    fechaHabitacion: string;
 
 };
 
@@ -37,7 +41,9 @@ export const createRoomie = (responses: Record<string, any>): Roomie => {
         localidadesBuscadas: responses["23"]?.answer,
         toleranciaInvitados: responses["31"]?.answer || "",
         descripcionRommieIdeal: responses["37"]?.answer || "",
-        animalesMolestia: responses["40"]?.answer,
+        animalesMolestia: responses["89"]?.answer,
+        tipoanimalesMolestia: responses["40"]?.answer,
+        viviraConMascota: responses["87"]?.answer,
         nombreCompleto: responses["41"]?.answer || "",
         generoPreferencia: responses["51"]?.answer || "",
         frecuenciaInvitados: responses["52"]?.answer || "",
@@ -54,5 +60,7 @@ export const createRoomie = (responses: Record<string, any>): Roomie => {
         interaccionSocial: responses["86"]?.answer || "",
         preferenciaRuido: responses["88"]?.answer || "",
         celular: responses["91"]?.answer || "",
+        plan: responses["94"]?.answer || "estandar",
+        fechaHabitacion: responses["67"]?.answer || Date.now
     };
 };

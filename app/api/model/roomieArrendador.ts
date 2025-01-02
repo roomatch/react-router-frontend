@@ -6,6 +6,7 @@ export type RoomieArrendador = {
     numeroRommies: number | undefined;
     descripcionRommieIdeal: string;
     animalesMolestia: string | undefined;
+    tipoanimalesMolestia: string | undefined;
     viviraConMascota: string;
     nombreCompleto: string;
     localidadVivienda: Array<string>;
@@ -28,6 +29,8 @@ export type RoomieArrendador = {
     celular: string;
     direccion: string | undefined;
     linkfotos: string | undefined;
+    plan: string;
+    fechaHabitacion: Date
 };
 
 export const createRoomieArrendador = (responses: Record<string, any>): RoomieArrendador => {
@@ -40,7 +43,8 @@ export const createRoomieArrendador = (responses: Record<string, any>): RoomieAr
         toleranciaInvitados: responses["31"]?.answer || "",
         numeroRommies: parseInt(responses["33"]?.answer) || undefined,
         descripcionRommieIdeal: responses["37"]?.answer || "",
-        animalesMolestia: responses["40"]?.answer,
+        animalesMolestia: responses["89"]?.answer,
+        tipoanimalesMolestia: responses["40"]?.answer,
         viviraConMascota: responses["87"]?.answer,
         nombreCompleto: responses["41"]?.answer || "",
         localidadVivienda: responses["45"]?.answer,
@@ -62,6 +66,8 @@ export const createRoomieArrendador = (responses: Record<string, any>): RoomieAr
         preferenciaRuido: responses["88"]?.answer || "",
         celular: responses["91"]?.answer || "",
         direccion: responses["63"]?.answer,
-        linkfotos: responses["92"]?.answer
+        linkfotos: responses["92"]?.answer,
+        plan: responses["93"]?.answer || "estandar",
+        fechaHabitacion: responses["68"]?.answer || Date.now
     };
 };
