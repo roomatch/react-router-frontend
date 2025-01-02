@@ -9,7 +9,7 @@ const client = new MongoClient(import.meta.env.VITE_MONGODB_URI, {
     },
 });
 
-async function connectDB() {
+export async function connectDB() {
     await client.connect();
     console.log("Connected to MongoDB");
     return client;
@@ -78,5 +78,3 @@ export async function updateUserCompatibles(cellphone: string, compatibles: Arra
 
 
 
-
-module.exports = { connectDB, client };
