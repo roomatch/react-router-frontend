@@ -379,7 +379,7 @@ export default function Accordion() {
                 },
                 {
                     title: 'Validación de roomie.',
-                    description: 'Validamos tus roomies potenciales ´verificando antecedentes judiciales, ocupación actual y solvencia económica para que te sientas aún más seguro de tener un buen match.',
+                    description: 'Validamos tus roomies potenciales verificando antecedentes judiciales, ocupación actual y solvencia económica para que te sientas aún más seguro de tener un buen match.',
                     isAvailable: true,
                 },
             ],
@@ -387,7 +387,7 @@ export default function Accordion() {
     ];
 
     return (
-        <RadixAccordion.Root  defaultValue="item-1" type="single" collapsible className="w-full">
+        <RadixAccordion.Root type="single" className="w-full">
             <RadixAccordion.Item value="item-1">
                 <RadixAccordion.Trigger className="group bg-prussian-blue w-full flex rounded-t-lg hover:bg-electric-indigo transition-colors">
                     <RadixAccordion.Header className="flex justify-between items-center w-full px-4 py-2">
@@ -399,7 +399,7 @@ export default function Accordion() {
                     </RadixAccordion.Header>
                 </RadixAccordion.Trigger>
                 <RadixAccordion.Content asChild>
-                    <Plans tiers={roomieSeekPlans}/>
+                    <Plans tiers={roomieSeekPlans} />
                 </RadixAccordion.Content>
             </RadixAccordion.Item>
 
@@ -414,7 +414,7 @@ export default function Accordion() {
                     </RadixAccordion.Header>
                 </RadixAccordion.Trigger>
                 <RadixAccordion.Content asChild>
-                    <Plans tiers={roomieRentPlans}/>
+                    <Plans tiers={roomieRentPlans} />
                 </RadixAccordion.Content>
             </RadixAccordion.Item>
         </RadixAccordion.Root>
