@@ -387,7 +387,7 @@ export default function Accordion() {
     ];
 
     return (
-        <RadixAccordion.Root type="single" className="w-full">
+        <RadixAccordion.Root type="single" collapsible className="w-full">
             <RadixAccordion.Item value="item-1">
                 <RadixAccordion.Trigger className="group bg-prussian-blue w-full flex rounded-t-lg hover:bg-electric-indigo transition-colors">
                     <RadixAccordion.Header className="flex justify-between items-center w-full px-4 py-2">

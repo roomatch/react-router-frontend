@@ -23,7 +23,7 @@ export default function Problematic() {
                     <Blockquote className="text-pretty max-w-[768px]">El Laboratorio de Economía de la Educación de la Universidad Javeriana presentó un informe que muestra que de los graduados de bachiller en 2018 y que comenzaron sus estudios universitarios en el 2019, el 72.38% lo hicieron en ciudades distintas a sus ciudades de residencia; Bogotá recibió el 56.79% de aquellos estudiantes y es la única ciudad donde los jóvenes recién graduados del colegio de otras regiones que entran a la universidad son más que los mismos jóvenes locales.</Blockquote>
                     <Flex as="span" direction="column" gap="6" className={`max-h-0 max-w-[768px] overflow-hidden transition-[max-height] duration-700 ${isExpanded ? 'max-h-[600rem] transition-[max-height]' : null}`}>
                         {problematicParagraphs.map((paragraph, index) => (
-                            <Blockquote className={!index ? 'mt-6' : 'text-'}>{paragraph}</Blockquote>
+                            <Blockquote key={paragraph} className={!index ? 'mt-6' : 'text-'}>{paragraph}</Blockquote>
                         ))}
                     </Flex>
                 </Flex>
