@@ -1,10 +1,10 @@
-import { Flex, Heading, Text } from "@radix-ui/themes";
 import HeartHandshake from "./assets/heart-handshake";
 import CalendarUp from "./assets/calendar-up";
 import Adjustments from "./assets/adjustments";
 import Package from "./assets/package";
 import Spy from "./assets/spy";
 import Messages from "./assets/messages";
+import { Flex, Heading, Text } from "@radix-ui/themes";
 
 export default function Features() {
     const featuresProps = [
@@ -50,7 +50,7 @@ export default function Features() {
             <Heading as="h1" align="center" className="max-w-[768px]">¿Por qué buscar tus roomies y vivienda compartida en Roomatch?</Heading>
             <div className="w-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 place-items-center">
                 {featuresProps.map(feature =>
-                    <article className={`justify-between items-center flex flex-col gap-6 text-pretty p-6 h-[28rem] w-80 rounded-lg shadow-[0px_10px_100px_-60px_theme(colors.electric-indigo)] ${feature.gradient} sm:w-72 sm:h-[32rem] md:h-[28rem] md:w-80`}>
+                    <article key={feature.title} className={`justify-between items-center flex flex-col gap-6 text-pretty p-6 h-[28rem] w-80 rounded-lg shadow-[0px_10px_100px_-60px_theme(colors.electric-indigo)] ${feature.gradient} sm:w-72 sm:h-[32rem] md:h-[28rem] md:w-80`}>
                         <Flex direction="column" gap="4">
                             <Heading as="h1" size="4" >{feature.title}</Heading>
                             <Text as="p">{feature.description}</Text>
