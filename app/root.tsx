@@ -46,7 +46,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta property="og:title" content="Roomatch | Encuentra vivienda compartida y roomies ideales" />
         <meta property="og:description" content="En Roomatch, encuentra vivienda compartida y roomies ideales, conecta y convive" />
-        <meta property="og:image" content="/favicon.svg" />
+        <meta property="og:image" content="/favicon.ico" />
         <meta property="og:url" content="https://www.roomatch.me" />
         <meta property="og:type" content="website" />
         <Meta />
