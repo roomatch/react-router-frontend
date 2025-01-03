@@ -41,8 +41,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="bg-mirrage dark:bg-mirrage">
       <head>
+        <title>Roomatch</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:title" content="Roomatch | Encuentra vivienda compartida y roomies ideales" />
+        <meta property="og:description" content="En Roomatch, encuentra vivienda compartida y roomies ideales, conecta y convive" />
+        <meta property="og:image" content="/favicon.svg" />
+        <meta property="og:url" content="https://www.roomatch.me" />
+        <meta property="og:type" content="website" />
         <Meta />
         <Links />
         <script src="https://upload-widget.cloudinary.com/latest/global/all.js" type="text/javascript"></script>
