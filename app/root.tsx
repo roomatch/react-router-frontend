@@ -22,6 +22,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import '@fontsource/poppins';
 import '@fontsource-variable/comfortaa';
+import { useState } from "react";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -50,7 +51,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta property="og:url" content="https://www.roomatch.me" />
         <meta property="og:type" content="website" />
         <Meta />
-        <Links />
+        <Links  />
         <script src="https://upload-widget.cloudinary.com/latest/global/all.js" type="text/javascript"></script>
       </head>
       <body>
@@ -71,15 +72,24 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-const queryClient = new QueryClient()
 
 export default function App() {
+    const [queryClient] = useState(
+      () =>
+        new QueryClient({
+          defaultOptions: {
+            queries: {
+              staleTime: 60 * 1000,
+            },
+          },
+        }),
+    )
   return (
     <QueryClientProvider client={queryClient}>
-      <Theme accentColor="violet" appearance="light" grayColor="gray" radius="large" scaling="100%" panelBackground='translucent'>
-        <Outlet />
-      </Theme>
-      <ReactQueryDevtools initialIsOpen={false} />
+        <Theme accentColor="violet" appearance="light" grayColor="gray" radius="large" scaling="100%" panelBackground='translucent'>
+          <Outlet />
+        </Theme>
+        <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }
