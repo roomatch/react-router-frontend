@@ -31,9 +31,12 @@ export async function editSubmission(questionId: string, newAnswer: string, subm
     }
 }
 
-async function getSubmission(submission_id: string): Promise<JotFormResponse> {
+export async function getSubmission(submission_id: string): Promise<JotFormResponse> {
     try {
         const response = await fetch(`https://api.jotform.com/submission/${submission_id}?apiKey=${API_KEY}`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok')
+        }
         const data: JotFormResponse = await response.json();
         return data;
     } catch (error) {
