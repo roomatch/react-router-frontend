@@ -6,6 +6,11 @@ interface Submission {
 
 export interface JotFormResponse {
     content: Submission[];
+    responseCode: number;
+}
+
+export interface JotFormErrorResponse {
+    responseCode: number
 }
 
 export interface JotFormSingleResponse {
