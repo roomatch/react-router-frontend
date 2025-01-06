@@ -23,6 +23,10 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import '@fontsource/poppins';
 import '@fontsource-variable/comfortaa';
 
+import posthog from 'posthog-js';
+import { PostHogProvider } from 'posthog-js/react'
+
+
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
@@ -65,15 +69,21 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
+const options = {
+  api_host: import.meta.env.VITE_REACT_APP_PUBLIC_POSTHOG_HOST
+}
+
 const queryClient = new QueryClient()
 
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Theme accentColor="violet" appearance="light" grayColor="gray" radius="large" scaling="100%" panelBackground='translucent'>
-        <Outlet />
-      </Theme>
-      <ReactQueryDevtools initialIsOpen={false} />
+      <PostHogProvider apiKey={import.meta.env.VITE_REACT_APP_PUBLIC_POSTHOG_KEY} options={options}>
+        <Theme accentColor="violet" appearance="light" grayColor="gray" radius="large" scaling="100%" panelBackground='translucent'>
+          <Outlet />
+        </Theme>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </PostHogProvider>
     </QueryClientProvider>
   );
 }
