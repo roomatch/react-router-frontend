@@ -212,13 +212,17 @@ export default function Signup() {
             // Only proceed with mutation if validation passed
             if (kindOfUser === 'RoomieRent' && isValid) {
                 await roomieRentSignUpMutation.mutateAsync();
+                setTimeout(() => {
+                    navigate('/');
+                  }, 4000);
             }
             if (kindOfUser === 'RoomieSeek' && isValid) {
                 await roomieSeekSignUpMutation.mutateAsync();
+                setTimeout(() => {
+                    navigate('/');
+                  }, 4000);
             }
-            setTimeout(() => {
-                navigate('/');
-              }, 3000);
+
         } catch (error) {
             console.error('Error during validation or submission:', error);
             setErrorMessage("Ocurrió un error durante la validación. Por favor, inténtalo de nuevo.");
