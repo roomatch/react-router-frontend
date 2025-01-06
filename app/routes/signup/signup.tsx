@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import * as Toast from "@radix-ui/react-toast";
 import { default as ToastRoot } from "./components/toast";
 import { error } from "./icons/error";
@@ -11,6 +11,8 @@ import { Button, Container, Flex, Heading, Text } from "@radix-ui/themes";
 import roomiesPicture from './assets/roomies.jpg'
 import roomatchIcon from '../../assets/logo-no-letters.svg'
 import { useState } from "react";
+import { getSubmission } from "~/api/model/jorform-test";
+import { useNavigate } from "react-router";
 
 export default function Signup() {
     const { state, dispatch } = useManageFilesUpload();
@@ -19,6 +21,7 @@ export default function Signup() {
     const [errorMessage, setErrorMessage] = useState("");
     const [errorsOnSubmit, setErrorsOnSubmit] = useState<string[]>(["initialError"]);
 
+    const navigate = useNavigate();
 
     const handleFilesUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
@@ -62,7 +65,7 @@ export default function Signup() {
         mutationKey: ['files'],
     });
 
-    const signUpMutation = useMutation({
+    const roomieRentSignUpMutation = useMutation({
         mutationFn: async () => {
             const requestBody = {
                 ['92']: state.images.join(';'),
@@ -76,6 +79,17 @@ export default function Signup() {
             });
         },
         mutationKey: ['signup'],
+    });
+
+    const roomieSeekSignUpMutation = useMutation({
+        mutationFn: async () => {
+            new Promise((resolve) => {
+                setTimeout(() => {
+                  resolve("Data loaded");
+                }, 2000); // 2 seconds delay
+              });
+        },
+        mutationKey: ['signupRoomieSeek'],
     });
 
     const onOpenChangeProducer = (state: boolean, type: Action['type']) => () => { if (state) dispatch({ type } as Action) }
@@ -99,22 +113,22 @@ export default function Signup() {
         title: "Hubo un problema con la carga de tus imágenes, contactanos para ayudarte.",
     },
     {
-        open: signUpMutation.isPending,
+        open: roomieRentSignUpMutation.isPending || roomieSeekSignUpMutation.isPending,
         onOpenChange: undefined,
         icon: info,
         title: "Te estamos registrando...",
     },
     {
-        open: signUpMutation.isError,
+        open: roomieRentSignUpMutation.isError || roomieSeekSignUpMutation.isError,
         onOpenChange: undefined,
         icon: error,
         title: "Hubo un error en tu registro, escribenos para poder ayudarte.",
     },
     {
-        open: signUpMutation.isSuccess,
+        open: roomieRentSignUpMutation.isSuccess || roomieSeekSignUpMutation.isSuccess,
         onOpenChange: undefined,
         icon: success,
-        title: "Te has registrado exitosamente.",
+        title: "Te has registrado exitosamente. Pronto recibiras un mensaje de confirmación a tu WhatsApp y los proximos pasos.",
     }];
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -129,23 +143,87 @@ export default function Signup() {
         }
     };
 
+    const submissionValidationQuery = useQuery({
+        queryKey: ['getSubmissionValidation', inputValue],
+        queryFn: ({ queryKey }) => getSubmission(queryKey[1], import.meta.env.VITE_JOTFORM_APIKEY),
+        enabled: false,
+    });
+
+    const validateForm = async () => {
+        const errors = [];
+        let submissionError = "";
+
+        if (!kindOfUser) {
+            errors.push('Selecciona tu situación de busqueda');
+        }
+
+        if (kindOfUser === 'RoomieRent') {
+            if (errorMessage || inputValue.length !== 19) {
+                return {
+                    isValid: false,
+                    newErrorMessage: "Ingresa tu ID de envío.",
+                    errors: errors
+                };
+            }
+
+            if (state.images.length < 2) {
+                errors.push('Carga al menos dos imágenes');
+            }
+        }
+
+        // Check submission validation
+        const result = await submissionValidationQuery.refetch();
+        if (result.data?.responseCode === 401) {
+            submissionError = "Este ID no corresponde a ningún envío en nuestros registros, debes primero realizar tu envío en el formulario de arriba y copiar y pegar aquí el ID de envío mostrado al finalizar. Contáctanos si crees que es un error nuestro.";
+            return {
+                isValid: false,
+                newErrorMessage: submissionError,
+                errors: errors
+            };
+        }
+
+        return {
+            isValid: errors.length === 0 && !submissionError,
+            newErrorMessage: submissionError,
+            errors: errors
+        };
+    };
+
     const handleSubmit = async () => {
+        // Reset error states first
+        setErrorMessage("");
+        setErrorsOnSubmit(["initialError"]);
 
-        if (!kindOfUser) setErrorsOnSubmit([...errorsOnSubmit, 'Selecciona tu situación de busqueda']);
 
-        if (kindOfUser == 'RoomieSeek') {
-            if (state.images.length !== 0) dispatch({ type: "SET_IMAGES", payload: [] });
-            if (inputValue.length !== 0) setInputValue("");
+
+        try {
+            // Validate the form including submission validation
+            const { isValid, newErrorMessage, errors } = await validateForm();
+
+            // Update error states
+            if (newErrorMessage) {
+                setErrorMessage(newErrorMessage);
+            }
+
+            if (errors.length > 0) {
+                setErrorsOnSubmit(prev => [...prev, ...errors]);
+            }
+
+            // Only proceed with mutation if validation passed
+            if (kindOfUser === 'RoomieRent' && isValid) {
+                await roomieRentSignUpMutation.mutateAsync();
+            }
+            if (kindOfUser === 'RoomieSeek' && isValid) {
+                await roomieSeekSignUpMutation.mutateAsync();
+            }
+            setTimeout(() => {
+                navigate('/');
+              }, 3000);
+        } catch (error) {
+            console.error('Error during validation or submission:', error);
+            setErrorMessage("Ocurrió un error durante la validación. Por favor, inténtalo de nuevo.");
         }
-
-        if (kindOfUser == 'RoomieRent') {
-            if ((errorMessage || inputValue.length !== 19)) setErrorMessage("Ingresa tu ID de envío.");
-            if (state.images.length < 2) setErrorsOnSubmit([...errorsOnSubmit, 'Carga al menos dos imágenes']);
-        }
-
-        if (kindOfUser == 'RoomieRent' && !errorMessage && (errorsOnSubmit.length === 0 || (errorsOnSubmit.length === 1 && errorsOnSubmit[0] === 'initialError'))) signUpMutation.mutate();
-        
-    }
+    };
 
     return (
         <Toast.Provider duration={60000} swipeDirection="right">
@@ -197,25 +275,26 @@ export default function Signup() {
                         <script>window.jotformEmbedHandler("iframe[id='JotFormIFrame-240816995331664']", "https://form.jotform.com/")</script>
                     </Flex>
 
-                    {kindOfUser == 'RoomieRent' ? <>
-                        <Flex direction="column" gap="2">
-                            <Heading as="h2" size="4" weight="bold">3. Copia y pega aquí tu ID de envío.</Heading>
-                            <input
-                                type="text"
-                                value={inputValue}
-                                onChange={handleChange}
-                                maxLength={19}
-                                placeholder="Tu ID de envío."
-                                className={`font-light text-sm border-[1px] border-[var(--violet-8)] hover:border-[var(--violet-9)] focus:outline-none focus:border-[var(--violet-12)] p-2 rounded-lg ${inputValue.length !== 19 ? 'bg-[var(--violet-2)] text-[var(--violet-8)]' : 'bg-[var(--violet-9)] text-white'} transition-colors`}
-                            />
-                            {errorMessage && (
-                                <Flex direction="row" gap="2" align="center">
-                                    {error}
-                                    <Text as="p" size="2" color="red">{errorMessage}</Text>
-                                </Flex>
-                            )}
-                        </Flex>
+                    {kindOfUser !== null ?<Flex direction="column" gap="2">
+                        <Heading as="h2" size="4" weight="bold">{kindOfUser == 'RoomieSeek' ? '2' : '3'}. Copia y pega aquí tu ID de envío.</Heading>
+                        <input
+                            type="text"
+                            value={inputValue}
+                            onChange={handleChange}
+                            maxLength={19}
+                            placeholder="Tu ID de envío."
+                            className={`font-light text-sm border-[1px] border-[var(--violet-8)] hover:border-[var(--violet-9)] focus:outline-none focus:border-[var(--violet-12)] p-2 rounded-lg ${inputValue.length !== 19 ? 'bg-[var(--violet-2)] text-[var(--violet-8)]' : 'bg-[var(--violet-9)] text-white'} transition-colors`}
+                        />
+                        {errorMessage && (
+                            <Flex direction="row" gap="2" align="center">
+                                {error}
+                                <Text as="p" size="2" color="red">{errorMessage}</Text>
+                            </Flex>
+                        )}
+                    </Flex> : null }
+                    
 
+                    {kindOfUser == 'RoomieRent' ? <>
                         <Flex direction="column" gap="2">
                             <Heading as="h2" size="4" weight="bold">4. Muéstranos tu hogar.</Heading>
                             <FilesInput filesMutation={filesMutation} />
@@ -229,7 +308,7 @@ export default function Signup() {
                     </> : null}
 
                     <Container>
-                        <Button className="hover:cursor-pointer transition-all" onClick={async () => await handleSubmit()} >
+                        <Button className="hover:cursor-pointer transition-all" onClick={handleSubmit} disabled={roomieRentSignUpMutation.isPending || roomieSeekSignUpMutation.isPending || submissionValidationQuery.isFetching} >
                             Registrarme
                         </Button>
                     </Container>
