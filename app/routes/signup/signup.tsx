@@ -280,14 +280,13 @@ export default function Signup() {
                     </Flex>
 
                     {kindOfUser !== null ?<Flex direction="column" gap="2">
-                        <Heading as="h2" size="4" weight="bold">{kindOfUser == 'RoomieSeek' ? '2' : '3'}. Copia y pega aquí tu ID de envío.</Heading>
+                        <Heading as="h2" size="4" weight="bold">3. Copia y pega aquí tu ID de envío.</Heading>
                         <input
                             type="text"
                             value={inputValue}
                             onChange={handleChange}
-                            maxLength={19}
                             placeholder="Tu ID de envío."
-                            className={`font-light text-sm border-[1px] border-[var(--violet-8)] hover:border-[var(--violet-9)] focus:outline-none focus:border-[var(--violet-12)] p-2 rounded-lg ${inputValue.length !== 19 ? 'bg-[var(--violet-2)] text-[var(--violet-8)]' : 'bg-[var(--violet-9)] text-white'} transition-colors`}
+                            className={`font-light text-sm border-[1px] border-[var(--violet-8)] hover:border-[var(--violet-9)] focus:outline-none focus:border-[var(--violet-12)] p-2 rounded-lg text-[var(--violet-8)] bg-[var(--violet-2)] transition-colors`}
                         />
                         {errorMessage && (
                             <Flex direction="row" gap="2" align="center">
@@ -300,7 +299,7 @@ export default function Signup() {
 
                     {kindOfUser == 'RoomieRent' ? <>
                         <Flex direction="column" gap="2">
-                            <Heading as="h2" size="4" weight="bold">4. Muéstranos tu hogar.</Heading>
+                            <Heading as="h2" size="4" weight="bold">4. Muestrales a los demás tu hogar.</Heading>
                             <FilesInput filesMutation={filesMutation} />
                             {errorsOnSubmit.includes('Carga al menos dos imágenes') && (
                                 <Flex direction="row" gap="2" align="center">
