@@ -1,6 +1,8 @@
+import type { RoomieArrendador } from "./roomieArrendador";
+
 export type Roomie = {
     submissionid: string,
-    compatibles: Array<string>;
+    compatibles: Array<RoomieArrendador>;
     edad: number;
     universidad: string;
     localidadesBuscadas: Array<string>;
@@ -27,6 +29,7 @@ export type Roomie = {
 };
 
 export const createRoomie = (responses: Record<string, any>): Roomie => {
+    responses = responses["content"]
     const id = responses["id"]
     responses = responses["answers"]
     return {

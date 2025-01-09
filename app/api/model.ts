@@ -25,7 +25,8 @@ interface Submissionanswer {
 export interface RoomieInfo {
     cellphone: string;
     type: string;
-    compatibles: Array<string>
+    compatibles: Array<string>;
+    puntajes: Array<number>;
     submission_id: string
 }
 

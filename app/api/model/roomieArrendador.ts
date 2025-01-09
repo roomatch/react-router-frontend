@@ -28,6 +28,7 @@ export type RoomieArrendador = {
     celular: string;
     direccion: string | undefined;
     linkfotos: string | undefined;
+    puntaje: number;
 };
 
 export const createRoomieArrendador = (responses: Record<string, any>): RoomieArrendador => {
@@ -35,6 +36,7 @@ export const createRoomieArrendador = (responses: Record<string, any>): RoomieAr
     responses = responses["answers"]
     return {
         submission_id: id,
+        puntaje: 0,
         edad: parseInt(responses["17"]?.answer) || 0,
         universidad: responses["21"]?.answer || "",
         toleranciaInvitados: responses["31"]?.answer || "",
