@@ -1,6 +1,6 @@
 import type { JotFormResponse } from "./model";
 import { createRoomie } from "./model/roomie";
-import { createRoomieArrendador } from "./model/roomieArrendador";
+import { createRoomieArrendador, type RoomieArrendador } from "./model/roomieArrendador";
 import { getUserInfo } from "./mongodb";
 
 const API_KEY = import.meta.env.VITE_JOTFORM_APIKEY;
@@ -49,6 +49,15 @@ export async function getRoomie(celular: string) {
     const roomieInfo = await getUserInfo(celular)
     const submission = getSubmission(roomieInfo.submission_id)
     const roomie = createRoomie(submission)
+    console.log(roomie)
+    let arrendadores: Array<RoomieArrendador> = []
+    for (let i = 0; i < roomieInfo.compatibles.length; i++) {
+        const roomieArrendador = await getRoomieArrendador(roomieInfo.compatibles[i])
+        roomieArrendador.puntaje = roomieInfo.puntajes[i]
+        arrendadores.push(roomieArrendador)
+    }
+    roomie.compatibles = arrendadores
+    console.log(roomie)
     return roomie
 }
 

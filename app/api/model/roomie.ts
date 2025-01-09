@@ -1,6 +1,8 @@
+import type { RoomieArrendador } from "./roomieArrendador";
+
 export type Roomie = {
     submissionid: string,
-    compatibles: Array<string>;
+    compatibles: Array<RoomieArrendador>;
     edad: number;
     universidad: string;
     localidadesBuscadas: Array<string>;
