@@ -5,7 +5,7 @@ export type RoomieArrendador = {
     toleranciaInvitados: string;
     numeroRommies: number | undefined;
     descripcionRommieIdeal: string;
-    animalesMolestia: string | undefined;
+    animalesMolestia: string[] | undefined;
     viviraConMascota: string;
     otrosAnimalesMolestia: string;
     nombreCompleto: string;
@@ -13,13 +13,13 @@ export type RoomieArrendador = {
     descripcionApartamento: string | undefined;
     precioHabitacion: Array<number>;
     amoblada: Array<string>;
-    precioHabitacionServicios: boolean | undefined;
+    precioHabitacionServicios: boolean;
     precioServiciosPromedio: number | undefined;
     generoPreferencia: string;
-    generoApartamento: string;
+    generoApartamento: string[];
     frecuenciaInvitados: string;
     rangoEdadRoomie: string;
-    ocupacion: string;
+    ocupacion: string[];
     situacionBusqueda: string;
     genero: string;
     orden: string;
@@ -31,7 +31,7 @@ export type RoomieArrendador = {
     linkfotos: string | undefined;
     puntaje: number;
     plan: string;
-    fechaHabitacion: Date;
+    fechaHabitacion: {datetime: string};
 };
 
 export const createRoomieArrendador = (responses: Record<string, any>): RoomieArrendador => {
@@ -60,7 +60,7 @@ export const createRoomieArrendador = (responses: Record<string, any>): RoomieAr
         descripcionApartamento: responses["46"]?.answer,
         precioHabitacion: precios,
         amoblada: amobladas,
-        precioHabitacionServicios: responses["49"]?.answer === "Sí",
+        precioHabitacionServicios: responses["49"]?.answer === "SÍ",
         precioServiciosPromedio: parseInt(responses["50"]?.answer) || undefined,
         generoPreferencia: responses["51"]?.answer || "",
         generoApartamento: responses["54"]?.answer,

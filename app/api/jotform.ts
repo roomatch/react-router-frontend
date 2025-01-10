@@ -20,10 +20,8 @@ export async function editSubmission(questionId: string, newAnswer: string, subm
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const result = await response.json();
-        console.log("Submission updated successfully:", result);
         return result;
     } catch (error) {
-        console.error("Error updating submission:", error);
         throw error;
     }
 }
@@ -37,7 +35,6 @@ export async function getSubmission(submission_id: string): Promise<JotFormRespo
         const data: JotFormResponse = await response.json();
         return data;
     } catch (error) {
-        console.error("Error fetching submission:", error);
         throw error;
     }
 }

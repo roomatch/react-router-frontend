@@ -11,7 +11,6 @@ export async function getSubmission(submission_id: string, apiKey: string): Prom
         
         
     } catch (error) {
-        console.error("Error fetching submission:", error);
         throw error;
     }
 }
