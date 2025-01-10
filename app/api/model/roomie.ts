@@ -1,12 +1,15 @@
+import type { RoomieArrendador } from "./roomieArrendador";
+
 export type Roomie = {
     submissionid: string,
-    compatibles: Array<string>;
+    compatibles: Array<RoomieArrendador>;
     edad: number;
     universidad: string;
     localidadesBuscadas: Array<string>;
     toleranciaInvitados: string;
     descripcionRommieIdeal: string;
     animalesMolestia: string | undefined;
+    otrosAnimalesMolestia: string,
     nombreCompleto: string;
     generoPreferencia: string;
     frecuenciaInvitados: string;
@@ -23,10 +26,13 @@ export type Roomie = {
     interaccionSocial: string;
     preferenciaRuido: string;
     celular: string;
+    plan: string;
+    fechaHabitacion: Date;
 
 };
 
 export const createRoomie = (responses: Record<string, any>): Roomie => {
+    responses = responses["content"]
     const id = responses["id"]
     responses = responses["answers"]
     return {
@@ -38,6 +44,7 @@ export const createRoomie = (responses: Record<string, any>): Roomie => {
         toleranciaInvitados: responses["31"]?.answer || "",
         descripcionRommieIdeal: responses["37"]?.answer || "",
         animalesMolestia: responses["40"]?.answer,
+        otrosAnimalesMolestia: responses["78"]?.answer,
         nombreCompleto: responses["41"]?.answer || "",
         generoPreferencia: responses["51"]?.answer || "",
         frecuenciaInvitados: responses["52"]?.answer || "",
@@ -54,5 +61,7 @@ export const createRoomie = (responses: Record<string, any>): Roomie => {
         interaccionSocial: responses["86"]?.answer || "",
         preferenciaRuido: responses["88"]?.answer || "",
         celular: responses["91"]?.answer || "",
+        plan: responses["95"]?.answer || "Estandar",
+        fechaHabitacion: responses["67"]?.answer || Date.now,
     };
 };
