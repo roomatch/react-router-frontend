@@ -16,7 +16,7 @@ export default function Matches({
   const cleanedCompatibles = compatibles.map(item => ({
     ...item,
     linkfotos: item.linkfotos?.replace("<p>", "").replace("</p>", "").split(";"),
-    numberOfCompatibles: Math.floor(Math.random() * (20 - 5 + 1)) + 5,
+    numberOfCompatibles: item.numberOfCompatibles
   }));
 
   return (
@@ -25,121 +25,121 @@ export default function Matches({
       <Heading as="h1" align="center" className="max-w-[768px]">¡Estos son los roomies que son compatibles contigo!</Heading>
 
       <div className={`${cleanedCompatibles.length < 1 ? 'flex items-center justify-center flex-wrap' : 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 place-items-center justify-items-center'} gap-3`}>
-      <article className="overflow-y-scroll h-[28rem] justify-between items-center flex flex-col gap-6 text-pretty p-6 pt-0 w-80 rounded-lg shadow-[0px_10px_100px_-60px_theme(colors.electric-indigo)] bg-gradient-to-br from-transparent to-prussian-blue  sm:h-[32rem] md:h-[28rem] ">
-            <Box as="div" className="h-2/3 w-full object-cover rounded-b-lg bg-electric-indigo p-3 pt-0">
-              <img src="https://res-console.cloudinary.com/dkao0yswo/thumbnails/v1/image/upload/v1736546336/bnl3ZGI1aWt5MW9neWo5M3locW0=/drilldown" alt="foto de habitación no disponible" className="rounded-b-lg h-full mx-auto" />
-            </Box>
-            <Box as="div" className="h-1/3 w-full mx-auto">
-              <Badge color="jade" mb="4">Puntaje de compatibilidad: {180}/210</Badge>
-              <Badge color="crimson" mb="4">Otras 5 personas también <br /> son compatibles con este roomie</Badge>
-              <DataList.Root orientation={{ initial: "vertical", sm: "horizontal" }}>
-                <DataList.Item>
-                  <DataList.Label minWidth="88px">Edad:</DataList.Label>
-                  <DataList.Value>{roomieInfo.edad}</DataList.Value>
-                </DataList.Item>
-                <DataList.Item>
-                  <DataList.Label minWidth="88px">Género:</DataList.Label>
-                  <DataList.Value>
-                    {roomieInfo.genero}
-                  </DataList.Value>
-                </DataList.Item>
-                <DataList.Item>
-                  <DataList.Label minWidth="88px">Ubicación:</DataList.Label>
-                  <DataList.Value>
-                    {roomieInfo.localidadesBuscadas.at(0)}
-                  </DataList.Value>
-                </DataList.Item>
-                <DataList.Item>
-                  <DataList.Label minWidth="88px" maxWidth="100px">¿Qué espera de un buen roomie?</DataList.Label>
-                  <DataList.Value>
-                    Simplemente sentido comun con el espacio, el ruido y el bienestar de los demás.
-                  </DataList.Value>
-                </DataList.Item>
-                  <DataList.Item>
-                    <DataList.Label minWidth="88px">Habitación 1</DataList.Label>
-                    <DataList.Value>
-                      <Flex direction="column" gap="2">
-                        <DataList.Item>
-                          <DataList.Label>Precio:</DataList.Label>
-                          <DataList.Value>
-                            {Math.floor(roomieInfo.rangoPresupuestoMax / 2)}
-                          </DataList.Value>
-                        </DataList.Item>
-                        <DataList.Item>
-                          <DataList.Label>¿Es amoblada?:</DataList.Label>
-                          <DataList.Value>
-                            Sí
-                          </DataList.Value>
-                        </DataList.Item>
-                      </Flex>
-                    </DataList.Value>
-                  </DataList.Item>
-              </DataList.Root>
-              <AlertDialog.Root>
-                <AlertDialog.Trigger>
-                  <Button disabled className="hover:cursor-not-allowed" my="4">Ya no está disponible</Button>
-                </AlertDialog.Trigger>
-              </AlertDialog.Root>
-            </Box>
-          </article>
-          
-          <article className="overflow-y-scroll h-[28rem] justify-between items-center flex flex-col gap-6 text-pretty p-6 pt-0 w-80 rounded-lg shadow-[0px_10px_100px_-60px_theme(colors.electric-indigo)] bg-gradient-to-br from-transparent to-prussian-blue  sm:h-[32rem] md:h-[28rem] ">
-            <Box as="div" className="h-2/3 w-full object-cover rounded-b-lg bg-electric-indigo p-3 pt-0">
-              <img src="https://res.cloudinary.com/dkao0yswo/image/upload/v1736547455/472225539_122126573756570277_3135472162992730873_n_ynqmva.jpg" alt="foto de habitación no disponible" className="rounded-b-lg h-full mx-auto" />
-            </Box>
-            <Box as="div" className="h-1/3 w-full mx-auto">
-              <Badge color="jade" mb="4">Puntaje de compatibilidad: {190}/210</Badge>
-              <Badge color="crimson" mb="4">Otras 7 personas también <br /> son compatibles con este roomie</Badge>
-              <DataList.Root orientation={{ initial: "vertical", sm: "horizontal" }}>
-                <DataList.Item>
-                  <DataList.Label minWidth="88px">Edad:</DataList.Label>
-                  <DataList.Value>{roomieInfo.edad+2}</DataList.Value>
-                </DataList.Item>
-                <DataList.Item>
-                  <DataList.Label minWidth="88px">Género:</DataList.Label>
-                  <DataList.Value>
-                    {roomieInfo.genero}
-                  </DataList.Value>
-                </DataList.Item>
-                <DataList.Item>
-                  <DataList.Label minWidth="88px">Ubicación:</DataList.Label>
-                  <DataList.Value>
-                    {roomieInfo.localidadesBuscadas.at(0)}
-                  </DataList.Value>
-                </DataList.Item>
-                <DataList.Item>
-                  <DataList.Label minWidth="88px" maxWidth="100px">¿Qué espera de un buen roomie?</DataList.Label>
-                  <DataList.Value>
-                    Lo más importante es que esté abierto a hablar y acuerdos, que hayamos acordado personalidad y hábitos de vida por esta plataforma ya es lo más importante.
-                  </DataList.Value>
-                </DataList.Item>
-                  <DataList.Item>
-                    <DataList.Label minWidth="88px">Habitación 1</DataList.Label>
-                    <DataList.Value>
-                      <Flex direction="column" gap="2">
-                        <DataList.Item>
-                          <DataList.Label>Precio:</DataList.Label>
-                          <DataList.Value>
-                            {Math.floor((roomieInfo.rangoPresupuestoMax / 2) - 120000)}
-                          </DataList.Value>
-                        </DataList.Item>
-                        <DataList.Item>
-                          <DataList.Label>¿Es amoblada?:</DataList.Label>
-                          <DataList.Value>
-                            Sí
-                          </DataList.Value>
-                        </DataList.Item>
-                      </Flex>
-                    </DataList.Value>
-                  </DataList.Item>
-              </DataList.Root>
-              <AlertDialog.Root>
-                <AlertDialog.Trigger>
-                  <Button disabled className="hover:cursor-not-allowed" my="4">Ya no está disponible</Button>
-                </AlertDialog.Trigger>
-              </AlertDialog.Root>
-            </Box>
-          </article>
+        <article className="overflow-y-scroll h-[28rem] justify-between items-center flex flex-col gap-6 text-pretty p-6 pt-0 w-80 rounded-lg shadow-[0px_10px_100px_-60px_theme(colors.electric-indigo)] bg-gradient-to-br from-transparent to-prussian-blue  sm:h-[32rem] md:h-[28rem] ">
+          <Box as="div" className="h-2/3 w-full object-cover rounded-b-lg bg-electric-indigo p-3 pt-0">
+            <img src="https://res-console.cloudinary.com/dkao0yswo/thumbnails/v1/image/upload/v1736546336/bnl3ZGI1aWt5MW9neWo5M3locW0=/drilldown" alt="foto de habitación no disponible" className="rounded-b-lg h-full mx-auto" />
+          </Box>
+          <Box as="div" className="h-1/3 w-full mx-auto">
+            <Badge color="jade" mb="4">Puntaje de compatibilidad: {180}/210</Badge>
+            <Badge color="crimson" mb="4">Otras 5 personas también <br /> son compatibles con este roomie</Badge>
+            <DataList.Root orientation={{ initial: "vertical", sm: "horizontal" }}>
+              <DataList.Item>
+                <DataList.Label minWidth="88px">Edad:</DataList.Label>
+                <DataList.Value>{roomieInfo.edad}</DataList.Value>
+              </DataList.Item>
+              <DataList.Item>
+                <DataList.Label minWidth="88px">Género:</DataList.Label>
+                <DataList.Value>
+                  {roomieInfo.genero}
+                </DataList.Value>
+              </DataList.Item>
+              <DataList.Item>
+                <DataList.Label minWidth="88px">Ubicación:</DataList.Label>
+                <DataList.Value>
+                  {roomieInfo.localidadesBuscadas.at(0)}
+                </DataList.Value>
+              </DataList.Item>
+              <DataList.Item>
+                <DataList.Label minWidth="88px" maxWidth="100px">¿Qué espera de un buen roomie?</DataList.Label>
+                <DataList.Value>
+                  Simplemente sentido comun con el espacio, el ruido y el bienestar de los demás.
+                </DataList.Value>
+              </DataList.Item>
+              <DataList.Item>
+                <DataList.Label minWidth="88px">Habitación 1</DataList.Label>
+                <DataList.Value>
+                  <Flex direction="column" gap="2">
+                    <DataList.Item>
+                      <DataList.Label>Precio:</DataList.Label>
+                      <DataList.Value>
+                        {Math.floor(roomieInfo.rangoPresupuestoMax / 2)}
+                      </DataList.Value>
+                    </DataList.Item>
+                    <DataList.Item>
+                      <DataList.Label>¿Es amoblada?:</DataList.Label>
+                      <DataList.Value>
+                        Sí
+                      </DataList.Value>
+                    </DataList.Item>
+                  </Flex>
+                </DataList.Value>
+              </DataList.Item>
+            </DataList.Root>
+            <AlertDialog.Root>
+              <AlertDialog.Trigger>
+                <Button disabled className="hover:cursor-not-allowed" my="4">Ya no está disponible</Button>
+              </AlertDialog.Trigger>
+            </AlertDialog.Root>
+          </Box>
+        </article>
+
+        <article className="overflow-y-scroll h-[28rem] justify-between items-center flex flex-col gap-6 text-pretty p-6 pt-0 w-80 rounded-lg shadow-[0px_10px_100px_-60px_theme(colors.electric-indigo)] bg-gradient-to-br from-transparent to-prussian-blue  sm:h-[32rem] md:h-[28rem] ">
+          <Box as="div" className="h-2/3 w-full object-cover rounded-b-lg bg-electric-indigo p-3 pt-0">
+            <img src="https://res.cloudinary.com/dkao0yswo/image/upload/v1736547455/472225539_122126573756570277_3135472162992730873_n_ynqmva.jpg" alt="foto de habitación no disponible" className="rounded-b-lg h-full mx-auto" />
+          </Box>
+          <Box as="div" className="h-1/3 w-full mx-auto">
+            <Badge color="jade" mb="4">Puntaje de compatibilidad: {190}/210</Badge>
+            <Badge color="crimson" mb="4">Otras 7 personas también <br /> son compatibles con este roomie</Badge>
+            <DataList.Root orientation={{ initial: "vertical", sm: "horizontal" }}>
+              <DataList.Item>
+                <DataList.Label minWidth="88px">Edad:</DataList.Label>
+                <DataList.Value>{roomieInfo.edad + 2}</DataList.Value>
+              </DataList.Item>
+              <DataList.Item>
+                <DataList.Label minWidth="88px">Género:</DataList.Label>
+                <DataList.Value>
+                  {roomieInfo.genero}
+                </DataList.Value>
+              </DataList.Item>
+              <DataList.Item>
+                <DataList.Label minWidth="88px">Ubicación:</DataList.Label>
+                <DataList.Value>
+                  {roomieInfo.localidadesBuscadas.at(0)}
+                </DataList.Value>
+              </DataList.Item>
+              <DataList.Item>
+                <DataList.Label minWidth="88px" maxWidth="100px">¿Qué espera de un buen roomie?</DataList.Label>
+                <DataList.Value>
+                  Lo más importante es que esté abierto a hablar y acuerdos, que hayamos acordado personalidad y hábitos de vida por esta plataforma ya es lo más importante.
+                </DataList.Value>
+              </DataList.Item>
+              <DataList.Item>
+                <DataList.Label minWidth="88px">Habitación 1</DataList.Label>
+                <DataList.Value>
+                  <Flex direction="column" gap="2">
+                    <DataList.Item>
+                      <DataList.Label>Precio:</DataList.Label>
+                      <DataList.Value>
+                        {Math.floor((roomieInfo.rangoPresupuestoMax / 2) - 120000)}
+                      </DataList.Value>
+                    </DataList.Item>
+                    <DataList.Item>
+                      <DataList.Label>¿Es amoblada?:</DataList.Label>
+                      <DataList.Value>
+                        Sí
+                      </DataList.Value>
+                    </DataList.Item>
+                  </Flex>
+                </DataList.Value>
+              </DataList.Item>
+            </DataList.Root>
+            <AlertDialog.Root>
+              <AlertDialog.Trigger>
+                <Button disabled className="hover:cursor-not-allowed" my="4">Ya no está disponible</Button>
+              </AlertDialog.Trigger>
+            </AlertDialog.Root>
+          </Box>
+        </article>
         {cleanedCompatibles.map(compatible =>
           <article className="overflow-y-scroll h-[28rem] justify-between items-center flex flex-col gap-6 text-pretty p-6 pt-0 w-80 rounded-lg shadow-[0px_10px_100px_-60px_theme(colors.electric-indigo)] bg-gradient-to-br from-transparent to-prussian-blue  sm:h-[32rem] md:h-[28rem] ">
             <Box as="div" className="h-2/3 w-full object-cover rounded-b-lg bg-electric-indigo p-3 pt-0">

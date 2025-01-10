@@ -1,3 +1,5 @@
+import { getInteresados } from "./interesados";
+
 export type RoomieArrendador = {
     submission_id: string;
     edad: number;
@@ -31,7 +33,8 @@ export type RoomieArrendador = {
     linkfotos: string | undefined;
     puntaje: number;
     plan: string;
-    fechaHabitacion: {datetime: string};
+    fechaHabitacion: { datetime: string };
+    numberOfCompatibles: number;
 };
 
 export const createRoomieArrendador = (responses: Record<string, any>): RoomieArrendador => {
@@ -78,5 +81,6 @@ export const createRoomieArrendador = (responses: Record<string, any>): RoomieAr
         linkfotos: responses["92"]?.answer,
         plan: responses["94"]?.answer || "Estandar",
         fechaHabitacion: responses["68"]?.answer || Date.now,
+        numberOfCompatibles: getInteresados(responses["91"]?.answer) || 17
     };
 };
