@@ -54,7 +54,6 @@ export async function getRoomie(celular: string) {
             arrendadores.push(roomieArrendador)
         }
         roomie.compatibles = arrendadores
-        console.log(roomie)
         return roomie
     } catch (error) {
         throw error

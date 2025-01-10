@@ -169,7 +169,7 @@ export default function Signup() {
         } else {
             let searchingSituation = result.data?.content.answers[82].answer;
             searchingSituation = searchingSituation === "Ya tengo apartamento y busco roomies" ? 'RoomieRent' : 'RoomieSeek';
-            if (searchingSituation !== kindOfUser) errors.push('Tu situación de busqueda en esta pregunta debe coincidir con la del formulario. Corrige la selección en esta pregunta o en el formulario para que conincidan.')
+            if (searchingSituation !== kindOfUser) errors.push('Tu situación de busqueda en esta pregunta debe coincidir con la del formulario. Corrige la selección en esta pregunta o en el formulario para que coincidan.')
         }
 
         if (kindOfUser === 'RoomieRent') {
@@ -262,10 +262,10 @@ export default function Signup() {
                                 <Text as="p" size="2" color="red">Selecciona tu situación de busqueda.</Text>
                             </Flex>
                         )}
-                        {errorsOnSubmit.includes('Tu situación de busqueda en esta pregunta debe coincidir con la del formulario. Corrige la selección en esta pregunta o en el formulario para que conincidan.') && (
+                        {errorsOnSubmit.includes('Tu situación de busqueda en esta pregunta debe coincidir con la del formulario. Corrige la selección en esta pregunta o en el formulario para que coincidan.') && (
                             <Flex direction="row" gap="2" align="center">
                                 {error}
-                                <Text as="p" size="2" color="red">Tu situación de busqueda en esta pregunta debe coincidir con la del formulario. Corrige la selección en esta pregunta o en el formulario para que conincidan.</Text>
+                                <Text as="p" size="2" color="red">Tu situación de busqueda en esta pregunta debe coincidir con la del formulario. Corrige la selección en esta pregunta o en el formulario para que coincidan.</Text>
                             </Flex>
                         )}
                     </Flex>
