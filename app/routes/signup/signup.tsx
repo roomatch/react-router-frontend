@@ -134,13 +134,6 @@ export default function Signup() {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         setInputValue(value);
-        const isValid = /^\d{19}$/.test(value);
-
-        if (!isValid && value.length > 0) {
-            setErrorMessage("El ID no es valido. Tu ID lo encuentras en la pantalla final del formulario en el paso anterior.");
-        } else {
-            setErrorMessage("");
-        }
     };
 
     const submissionValidationQuery = useQuery({
@@ -157,30 +150,32 @@ export default function Signup() {
             errors.push('Selecciona tu situación de busqueda');
         }
 
-        // Check submission validation
-        const result = await submissionValidationQuery.refetch();
-        if (result.data?.responseCode === 401) {
-            submissionError = "Este ID no corresponde a ningún envío en nuestros registros, debes primero realizar tu envío en el formulario de arriba y copiar y pegar aquí el ID de envío mostrado al finalizar. Contáctanos si crees que es un error nuestro.";
+        if (kindOfUser && inputValue.length == 0) {
             return {
                 isValid: false,
-                newErrorMessage: submissionError,
+                newErrorMessage: "Ingresa tu ID de envío.",
                 errors: errors
             };
-        } else {
-            let searchingSituation = result.data?.content.answers[82].answer;
-            searchingSituation = searchingSituation === "Ya tengo apartamento y busco roomies" ? 'RoomieRent' : 'RoomieSeek';
-            if (searchingSituation !== kindOfUser) errors.push('Tu situación de busqueda en esta pregunta debe coincidir con la del formulario. Corrige la selección en esta pregunta o en el formulario para que coincidan.')
+        }
+
+        if (kindOfUser) {
+            // Check submission validation
+            const result = await submissionValidationQuery.refetch();
+            if (result.data?.responseCode === 401) {
+                submissionError = "Este ID no corresponde a ningún envío en nuestros registros, debes primero realizar tu envío en el formulario de arriba y copiar y pegar aquí el ID de envío mostrado al finalizar. Contáctanos si crees que es un error nuestro.";
+                return {
+                    isValid: false,
+                    newErrorMessage: submissionError,
+                    errors: errors
+                };
+            } else {
+                let searchingSituation = result.data?.content.answers[82].answer;
+                searchingSituation = searchingSituation === "Ya tengo apartamento y busco roomies" ? 'RoomieRent' : 'RoomieSeek';
+                if (searchingSituation !== kindOfUser) errors.push('Tu situación de busqueda en esta pregunta debe coincidir con la del formulario. Corrige la selección en esta pregunta o en el formulario para que coincidan.')
+            }
         }
 
         if (kindOfUser === 'RoomieRent') {
-            if (errorMessage || inputValue.length == 0) {
-                return {
-                    isValid: false,
-                    newErrorMessage: "Ingresa tu ID de envío.",
-                    errors: errors
-                };
-            }
-
             if (state.images.length < 2) {
                 errors.push('Carga al menos dos imágenes');
             }
@@ -228,7 +223,7 @@ export default function Signup() {
             }
 
         } catch (error) {
-            setErrorMessage("Ocurrió un error durante la validación. Por favor, inténtalo de nuevo.");
+            setErrorMessage("Ocurrió un error durante la validación. Por favor, inténtalo de contáctanos.");
         }
     };
 
@@ -323,6 +318,12 @@ export default function Signup() {
                         <Button className="hover:cursor-pointer transition-all" onClick={handleSubmit} disabled={roomieRentSignUpMutation.isPending || roomieSeekSignUpMutation.isPending || submissionValidationQuery.isFetching} >
                             Registrarme
                         </Button>
+                        {(errorsOnSubmit.includes('Carga al menos dos imágenes') || errorMessage || errorsOnSubmit.includes('Tu situación de busqueda en esta pregunta debe coincidir con la del formulario. Corrige la selección en esta pregunta o en el formulario para que coincidan.') || errorMessage || errorsOnSubmit.includes('Selecciona tu situación de busqueda')) ? (
+                            <Flex direction="row" gap="2" align="center">
+                                {error}
+                                <Text as="p" size="2" color="red" className="mt-2">Corrige los errores que aparecen arriba en el formulario antes de continuar.</Text>
+                            </Flex>
+                        ) : null}
                     </Container>
 
                     {notifications.map(({ open, onOpenChange, icon, title }) => (
