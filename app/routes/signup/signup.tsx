@@ -85,9 +85,9 @@ export default function Signup() {
         mutationFn: async () => {
             new Promise((resolve) => {
                 setTimeout(() => {
-                  resolve("Data loaded");
+                    resolve("Data loaded");
                 }, 2000); // 2 seconds delay
-              });
+            });
         },
         mutationKey: ['signupRoomieSeek'],
     });
@@ -157,8 +157,23 @@ export default function Signup() {
             errors.push('Selecciona tu situación de busqueda');
         }
 
+        // Check submission validation
+        const result = await submissionValidationQuery.refetch();
+        if (result.data?.responseCode === 401) {
+            submissionError = "Este ID no corresponde a ningún envío en nuestros registros, debes primero realizar tu envío en el formulario de arriba y copiar y pegar aquí el ID de envío mostrado al finalizar. Contáctanos si crees que es un error nuestro.";
+            return {
+                isValid: false,
+                newErrorMessage: submissionError,
+                errors: errors
+            };
+        } else {
+            let searchingSituation = result.data?.content.answers[82].answer;
+            searchingSituation = searchingSituation === "Ya tengo apartamento y busco roomies" ? 'RoomieRent' : 'RoomieSeek';
+            if (searchingSituation !== kindOfUser) errors.push('Tu situación de busqueda en esta pregunta debe coincidir con la del formulario. Corrige la selección en esta pregunta o en el formulario para que conincidan.')
+        }
+
         if (kindOfUser === 'RoomieRent') {
-            if (errorMessage || inputValue.length !== 19) {
+            if (errorMessage || inputValue.length == 0) {
                 return {
                     isValid: false,
                     newErrorMessage: "Ingresa tu ID de envío.",
@@ -169,17 +184,6 @@ export default function Signup() {
             if (state.images.length < 2) {
                 errors.push('Carga al menos dos imágenes');
             }
-        }
-
-        // Check submission validation
-        const result = await submissionValidationQuery.refetch();
-        if (result.data?.responseCode === 401) {
-            submissionError = "Este ID no corresponde a ningún envío en nuestros registros, debes primero realizar tu envío en el formulario de arriba y copiar y pegar aquí el ID de envío mostrado al finalizar. Contáctanos si crees que es un error nuestro.";
-            return {
-                isValid: false,
-                newErrorMessage: submissionError,
-                errors: errors
-            };
         }
 
         return {
@@ -214,17 +218,16 @@ export default function Signup() {
                 await roomieRentSignUpMutation.mutateAsync();
                 setTimeout(() => {
                     navigate('/');
-                  }, 4000);
+                }, 4000);
             }
             if (kindOfUser === 'RoomieSeek' && isValid) {
                 await roomieSeekSignUpMutation.mutateAsync();
                 setTimeout(() => {
                     navigate('/');
-                  }, 4000);
+                }, 4000);
             }
 
         } catch (error) {
-            console.error('Error during validation or submission:', error);
             setErrorMessage("Ocurrió un error durante la validación. Por favor, inténtalo de nuevo.");
         }
     };
@@ -259,6 +262,12 @@ export default function Signup() {
                                 <Text as="p" size="2" color="red">Selecciona tu situación de busqueda.</Text>
                             </Flex>
                         )}
+                        {errorsOnSubmit.includes('Tu situación de busqueda en esta pregunta debe coincidir con la del formulario. Corrige la selección en esta pregunta o en el formulario para que conincidan.') && (
+                            <Flex direction="row" gap="2" align="center">
+                                {error}
+                                <Text as="p" size="2" color="red">Tu situación de busqueda en esta pregunta debe coincidir con la del formulario. Corrige la selección en esta pregunta o en el formulario para que conincidan.</Text>
+                            </Flex>
+                        )}
                     </Flex>
 
                     <Flex direction="column" gap="2">
@@ -279,7 +288,7 @@ export default function Signup() {
                         <script>window.jotformEmbedHandler("iframe[id='JotFormIFrame-240816995331664']", "https://form.jotform.com/")</script>
                     </Flex>
 
-                    {kindOfUser !== null ?<Flex direction="column" gap="2">
+                    {kindOfUser !== null ? <Flex direction="column" gap="2">
                         <Heading as="h2" size="4" weight="bold">3. Copia y pega aquí tu ID de envío.</Heading>
                         <input
                             type="text"
@@ -294,8 +303,8 @@ export default function Signup() {
                                 <Text as="p" size="2" color="red">{errorMessage}</Text>
                             </Flex>
                         )}
-                    </Flex> : null }
-                    
+                    </Flex> : null}
+
 
                     {kindOfUser == 'RoomieRent' ? <>
                         <Flex direction="column" gap="2">
