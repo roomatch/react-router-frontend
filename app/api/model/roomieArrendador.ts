@@ -7,11 +7,12 @@ export type RoomieArrendador = {
     descripcionRommieIdeal: string;
     animalesMolestia: string | undefined;
     viviraConMascota: string;
+    otrosAnimalesMolestia: string;
     nombreCompleto: string;
     localidadVivienda: Array<string>;
     descripcionApartamento: string | undefined;
-    precioHabitacion: number;
-    amoblada: string;
+    precioHabitacion: Array<number>;
+    amoblada: Array<string>;
     precioHabitacionServicios: boolean | undefined;
     precioServiciosPromedio: number | undefined;
     generoPreferencia: string;
@@ -29,11 +30,20 @@ export type RoomieArrendador = {
     direccion: string | undefined;
     linkfotos: string | undefined;
     puntaje: number;
+    plan: string;
+    fechaHabitacion: Date;
 };
 
 export const createRoomieArrendador = (responses: Record<string, any>): RoomieArrendador => {
     const id = responses["id"]
     responses = responses["answers"]
+    let habitaciones = JSON.parse(responses["75"].answer)
+    let precios = []
+    let amobladas = []
+    for (let i = 0; i < habitaciones.length; i++) {
+        precios.push(habitaciones[i].Precio)
+        amobladas.push(habitaciones[i].Amoblada)
+    }
     return {
         submission_id: id,
         puntaje: 0,
@@ -44,11 +54,12 @@ export const createRoomieArrendador = (responses: Record<string, any>): RoomieAr
         descripcionRommieIdeal: responses["37"]?.answer || "",
         animalesMolestia: responses["40"]?.answer,
         viviraConMascota: responses["87"]?.answer,
+        otrosAnimalesMolestia: responses["78"]?.answer,
         nombreCompleto: responses["41"]?.answer || "",
         localidadVivienda: responses["45"]?.answer,
         descripcionApartamento: responses["46"]?.answer,
-        precioHabitacion: parseInt(JSON.parse(responses["75"]?.answer)[0].Precio),
-        amoblada: JSON.parse(responses["75"]?.answer)[0].Amoblada,
+        precioHabitacion: precios,
+        amoblada: amobladas,
         precioHabitacionServicios: responses["49"]?.answer === "Sí",
         precioServiciosPromedio: parseInt(responses["50"]?.answer) || undefined,
         generoPreferencia: responses["51"]?.answer || "",
@@ -64,6 +75,8 @@ export const createRoomieArrendador = (responses: Record<string, any>): RoomieAr
         preferenciaRuido: responses["88"]?.answer || "",
         celular: responses["91"]?.answer || "",
         direccion: responses["63"]?.answer,
-        linkfotos: responses["92"]?.answer
+        linkfotos: responses["92"]?.answer,
+        plan: responses["94"]?.answer || "Estandar",
+        fechaHabitacion: responses["68"]?.answer || Date.now,
     };
 };
