@@ -16,7 +16,7 @@
 html,
 body {
 
-  
+
 
   .radix-themes {
     --heading-font-family: 'Poppins', system-ui;
@@ -93,6 +93,33 @@ body {
     --color-background: #151b23;
 
     @apply bg-[var(--color-background)];
+  }
+
+  .scroll-container {
+    /* Ancho del scrollbar */
+    scrollbar-width: thin;
+
+    /* Color de la barra */
+    scrollbar-color: rgba(139, 92, 246, 0.5) transparent;
+  }
+
+  /* Para Chrome/Safari/Edge */
+  .scroll-container::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scroll-container::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scroll-container::-webkit-scrollbar-thumb {
+    background-color: rgba(139, 92, 246, 0.5);
+    border-radius: 20px;
+  }
+
+  /* Cuando el cursor está sobre el scrollbar */
+  .scroll-container::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(139, 92, 246, 0.8);
   }
 
   /*
@@ -245,5 +272,5 @@ body {
     }
   }
   */
-  
+
 }
