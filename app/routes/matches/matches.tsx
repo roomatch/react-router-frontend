@@ -28,7 +28,7 @@ export default function Matches({
       <Heading as="h1" align="center" className="max-w-[768px]">¡Estos son los roomies que son compatibles contigo!</Heading>
 
       <div className={`${cleanedCompatibles.length < 1 ? 'flex items-center justify-center flex-wrap' : 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 place-items-center justify-items-center'} gap-3`}>
-        <article className="overflow-y-scroll h-[28rem] justify-between items-center flex flex-col gap-6 text-pretty p-6 pt-0 w-80 rounded-lg shadow-[0px_10px_100px_-60px_theme(colors.electric-indigo)] bg-gradient-to-br from-transparent to-prussian-blue  sm:h-[32rem] md:h-[28rem] ">
+        <article className="scroll-container overflow-y-scroll h-[28rem] justify-between items-center flex flex-col gap-6 text-pretty p-6 pt-0 w-80 rounded-lg shadow-[0px_10px_100px_-60px_theme(colors.electric-indigo)] bg-gradient-to-br from-slate-700/80 to-prussian-blue  sm:h-[32rem] md:h-[28rem] ">
           <Box as="div" className="h-2/3 w-full object-cover rounded-lg bg-electric-indigo p-3 mt-4">
             <img src="https://www.info-centro-24.com/documents/admin/uploads/classifieds/img-45-26503-original.jpg" alt="foto de habitación no disponible" className="rounded-b-lg h-full mx-auto" />
           </Box>
@@ -86,7 +86,7 @@ export default function Matches({
           </Box>
         </article>
 
-        <article className="overflow-y-scroll h-[28rem] justify-between items-center flex flex-col gap-6 text-pretty p-6 pt-0 w-80 rounded-lg shadow-[0px_10px_100px_-60px_theme(colors.electric-indigo)] bg-gradient-to-br from-transparent to-prussian-blue  sm:h-[32rem] md:h-[28rem] ">
+        <article className="scroll-container overflow-y-scroll h-[28rem] justify-between items-center flex flex-col gap-6 text-pretty p-6 pt-0 w-80 rounded-lg shadow-[0px_10px_100px_-60px_theme(colors.electric-indigo)] bg-gradient-to-br from-slate-700/80 to-prussian-blue  sm:h-[32rem] md:h-[28rem] ">
           <Box as="div" className="h-2/3 w-full object-cover rounded-lg bg-electric-indigo p-3 mt-4">
             <img src="https://res.cloudinary.com/dkao0yswo/image/upload/v1736547455/472225539_122126573756570277_3135472162992730873_n_ynqmva.jpg" alt="foto de habitación no disponible" className="rounded-b-lg h-full mx-auto" />
           </Box>
@@ -144,7 +144,7 @@ export default function Matches({
           </Box>
         </article>
         {cleanedCompatibles.map(compatible =>
-          <article className="overflow-y-scroll h-[28rem] justify-between items-center flex flex-col gap-6 text-pretty p-6 pt-0 w-80 rounded-lg shadow-[0px_10px_100px_-60px_theme(colors.electric-indigo)] bg-gradient-to-br from-transparent to-prussian-blue  sm:h-[32rem] md:h-[28rem] ">
+          <article className="scroll-container overflow-y-scroll h-[28rem] justify-between items-center flex flex-col gap-6 text-pretty p-6 pt-0 w-80 rounded-lg shadow-[0px_10px_100px_-60px_theme(colors.electric-indigo)] bg-gradient-to-br from-slate-700/80 to-prussian-blue  sm:h-[32rem] md:h-[28rem] ">
             <Box as="div" className="h-2/3 w-full object-cover rounded-lg bg-electric-indigo p-3 mt-4">
               <img src={compatible.linkfotos?.at(0)} alt="foto de habitación no disponible" className="rounded-b-lg h-full mx-auto" />
             </Box>
