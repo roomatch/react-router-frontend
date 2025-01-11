@@ -2,6 +2,7 @@ import { getRoomie } from "~/api/jotform";
 import type { Route } from "./+types/matches";
 import { AlertDialog, Badge, Box, Button, DataList, Flex, Heading, Text } from "@radix-ui/themes";
 import InfoCircle from "../landing/components/pricing/components/accordion/components/plans/components/tootip/assets/info-circle";
+import roomatchLogo from '../../assets/logo-no-letters.svg'
 
 export async function loader({ params }: Route.LoaderArgs) {
   const roomieInfo = await getRoomie(params.phoneNumber);
@@ -22,6 +23,8 @@ export default function Matches({
   return (
     <Flex id="planes" direction="column" align="center" justify="center" gap="3" className="p-6 max-w-[1024px] mx-auto">
 
+<img src={roomatchLogo} alt="Logo de Roomatch" className="size-20 p-2 bg-cerulean rounded-full bg-gradient-to-br to-cerulean from-prussian-blue shadow-[3px_3px_0px_0px_theme(colors.electric-indigo)]" />
+
       <Heading as="h1" align="center" className="max-w-[768px]">¡Estos son los roomies que son compatibles contigo!</Heading>
 
       <div className={`${cleanedCompatibles.length < 1 ? 'flex items-center justify-center flex-wrap' : 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 place-items-center justify-items-center'} gap-3`}>
@@ -30,7 +33,7 @@ export default function Matches({
             <img src="https://res-console.cloudinary.com/dkao0yswo/thumbnails/v1/image/upload/v1736546336/bnl3ZGI1aWt5MW9neWo5M3locW0=/drilldown" alt="foto de habitación no disponible" className="rounded-b-lg h-full mx-auto" />
           </Box>
           <Box as="div" className="h-1/3 w-full mx-auto">
-            <Badge color="jade" mb="4">Puntaje de compatibilidad: {180}/210</Badge>
+            <Badge color="violet" mb="4">Puntaje de compatibilidad: {180}/210</Badge>
             <Badge color="crimson" mb="4">Otras 5 personas también <br /> son compatibles con este roomie</Badge>
             <DataList.Root orientation={{ initial: "vertical", sm: "horizontal" }}>
               <DataList.Item>
@@ -88,7 +91,7 @@ export default function Matches({
             <img src="https://res.cloudinary.com/dkao0yswo/image/upload/v1736547455/472225539_122126573756570277_3135472162992730873_n_ynqmva.jpg" alt="foto de habitación no disponible" className="rounded-b-lg h-full mx-auto" />
           </Box>
           <Box as="div" className="h-1/3 w-full mx-auto">
-            <Badge color="jade" mb="4">Puntaje de compatibilidad: {190}/210</Badge>
+            <Badge color="violet" mb="4">Puntaje de compatibilidad: {190}/210</Badge>
             <Badge color="crimson" mb="4">Otras 7 personas también <br /> son compatibles con este roomie</Badge>
             <DataList.Root orientation={{ initial: "vertical", sm: "horizontal" }}>
               <DataList.Item>
@@ -146,7 +149,7 @@ export default function Matches({
               <img src={compatible.linkfotos?.at(0)} alt="foto de habitación no disponible" className="rounded-b-lg h-full mx-auto" />
             </Box>
             <Box as="div" className="h-1/3 w-full mx-auto">
-              <Badge color="jade" mb="4">Puntaje de compatibilidad: {compatible.puntaje}/210</Badge>
+              <Badge color="violet" mb="4">Puntaje de compatibilidad: {compatible.puntaje}/210</Badge>
               <Badge color="crimson" mb="4">Otras {compatible.numberOfCompatibles} personas también <br /> son compatibles con este roomie</Badge>
               <DataList.Root orientation={{ initial: "vertical", sm: "horizontal" }}>
                 <DataList.Item>
