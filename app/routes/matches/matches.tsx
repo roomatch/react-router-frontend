@@ -23,7 +23,7 @@ export default function Matches({
   return (
     <Flex id="planes" direction="column" align="center" justify="center" gap="3" className="p-6 max-w-[1024px] mx-auto">
 
-<img src={roomatchLogo} alt="Logo de Roomatch" className="size-20 p-2 bg-cerulean rounded-full bg-gradient-to-br to-cerulean from-prussian-blue shadow-[3px_3px_0px_0px_theme(colors.electric-indigo)]" />
+      <img src={roomatchLogo} alt="Logo de Roomatch" className="size-20 p-2 bg-cerulean rounded-full bg-gradient-to-br to-cerulean from-prussian-blue shadow-[3px_3px_0px_0px_theme(colors.electric-indigo)]" />
 
       <Heading as="h1" align="center" className="max-w-[768px]">¡Estos son los roomies que son compatibles contigo!</Heading>
 
@@ -65,7 +65,7 @@ export default function Matches({
                     <DataList.Item>
                       <DataList.Label>Precio:</DataList.Label>
                       <DataList.Value>
-                        {Math.floor(roomieInfo.rangoPresupuestoMax / 2)}
+                        {roomieInfo.rangoPresupuestoMax - 120000}
                       </DataList.Value>
                     </DataList.Item>
                     <DataList.Item>
@@ -123,7 +123,7 @@ export default function Matches({
                     <DataList.Item>
                       <DataList.Label>Precio:</DataList.Label>
                       <DataList.Value>
-                        {Math.floor((roomieInfo.rangoPresupuestoMax / 2) - 120000)}
+                        {roomieInfo.rangoPresupuestoMax - 80000}
                       </DataList.Value>
                     </DataList.Item>
                     <DataList.Item>
