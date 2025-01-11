@@ -245,10 +245,10 @@ export default function Signup() {
                         <Heading as="h2" size="4" weight="bold">1. ¿Cuál es tu situación de busqueda?</Heading>
                         <Text size="1">La etapa de registro para quienes buscan habitación cerró el pasado 9 de enero.</Text>
                         <Flex direction="row" gap="4" wrap="wrap" justify={{ initial: 'between', xs: 'start' }}>
-                            <Button variant={kindOfUser == 'RoomieRent' ? 'solid' : 'surface'} size="1" className="py-5 cursor-pointer transition-all" asChild onClick={() => setKindOfUser('RoomieRent')} >
+                            <Button variant={kindOfUser == 'RoomieRent' ? 'solid' : 'surface'} size="1" className="py-5 hover:cursor-pointer transition-all" asChild onClick={() => setKindOfUser('RoomieRent')} >
                                 <span>Ya tengo apartamento y <br /> busco roomies</span>
                             </Button>
-                            <Button disabled variant={kindOfUser == 'RoomieSeek' ? 'solid' : 'surface'} size="1" className="py-5 cursor-pointer transition-all" asChild onClick={() => setKindOfUser('RoomieSeek')} >
+                            <Button disabled variant={kindOfUser == 'RoomieSeek' ? 'solid' : 'surface'} size="1" className="py-5 hover:cursor-not-allowed transition-all" asChild>
                                 <span>Busco habitación en un <br /> apartamento compartido</span>
                             </Button>
                         </Flex>
