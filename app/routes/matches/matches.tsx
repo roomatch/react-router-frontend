@@ -65,7 +65,7 @@ export default function Matches({
                     <DataList.Item>
                       <DataList.Label>Precio:</DataList.Label>
                       <DataList.Value>
-                        {roomieInfo.rangoPresupuestoMax - 120000}
+                        {roomieInfo.rangoPresupuestoMax - 35000}
                       </DataList.Value>
                     </DataList.Item>
                     <DataList.Item>
